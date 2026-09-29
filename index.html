@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>شلة | موقعنا الخاص</title>
+<style>
+  :root{
+    --bg:#0b0d17;
+    --bg2:#131625;
+    --card:#1a1e33;
+    --line:#2a2f4a;
+    --txt:#e8ecff;
+    --muted:#8b93b8;
+    --acc:#7c5cff;
+    --acc2:#00e0c6;
+    --gold:#ffc93c;
+    --danger:#ff4d6d;
+    --ok:#26d07c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,sans-serif}
+  body{background:radial-gradient(1200px 600px at 50% -10%, #1c2140 0%, var(--bg) 60%);color:var(--txt);min-height:100vh;overflow-x:hidden}
+
+  /* ===== شاشة الدخول ===== */
+  #login{
+    position:fixed;inset:0;background:radial-gradient(800px 500px at 50% 30%,#232a52,#0b0d17);
+    display:flex;align-items:center;justify-content:center;z-index:999;padding:20px;
+  }
+  .login-box{
+    width:100%;max-width:420px;background:var(--card);border:1px solid var(--line);
+    border-radius:20px;padding:35px 28px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);
+  }
+  .login-box h1{font-size:28px;margin-bottom:6px;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .login-box p{color:var(--muted);font-size:14px;margin-bottom:22px}
+  .login-box input{
+    width:100%;padding:13px 15px;margin-bottom:12px;background:var(--bg2);border:1px solid var(--line);
+    border-radius:12px;color:var(--txt);font-size:15px;outline:none;transition:.2s
+  }
+  .login-box input:focus{border-color:var(--acc)}
+  .login-box button{
+    width:100%;padding:14px;background:linear-gradient(90deg,var(--acc),#9d7cff);border:none;border-radius:12px;
+    color:#fff;font-size:16px;font-weight:bold;cursor:pointer;transition:.2s
+  }
+  .login-box button:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(124,92,255,.4)}
+  .login-msg{margin-top:12px;font-size:13px;color:var(--danger);min-height:18px}
+
+  /* ===== الهيكل العام ===== */
+  #app{display:none;min-height:100vh;flex-direction:column}
+  header{
+    background:rgba(19,22,37,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+    padding:12px 20px;display:flex;align-items:center;justify-content:space-between;
+    position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:10px
+  }
+  .logo{font-size:20px;font-weight:bold;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .user-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .chip{background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:6px 14px;font-size:13px;display:flex;align-items:center;gap:6px}
+  .chip b{color:var(--gold)}
+  .avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:14px}
+  .logout{background:transparent;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:6px 12px;cursor:pointer;font-size:13px;transition:.2s}
+  .logout:hover{background:var(--danger);color:#fff}
+
+  /* ===== التبويبات ===== */
+  nav{display:flex;gap:6px;padding:14px 20px;overflow-x:auto;border-bottom:1px solid var(--line);background:rgba(11,13,23,.6)}
+  nav button{
+    background:transparent;border:1px solid var(--line);color:var(--muted);padding:9px 18px;border-radius:30px;
+    cursor:pointer;font-size:14px;white-space:nowrap;transition:.2s
+  }
+  nav button:hover{color:var(--txt);border-color:var(--acc)}
+  nav button.active{background:linear-gradient(90deg,var(--acc),#9d7cff);color:#fff;border-color:transparent;font-weight:bold}
+
+  main{flex:1;padding:24px 20px;max-width:1100px;margin:0 auto;width:100%}
+  .page{display:none;animation:fade .3s ease}
+  .page.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:22px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;transition:.2s}
+  .card:hover{border-color:var(--acc);transform:translateY(-3px)}
+  .card h3{font-size:14px;color:var(--muted);margin-bottom:10px;font-weight:normal}
+  .card .big{font-size:30px;font-weight:bold;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .card .sub{font-size:12px;color:var(--muted);margin-top:6px}
+
+  h2.sec{font-size:20px;margin:22px 0 14px;display:flex;align-items:center;gap:10px}
+  h2.sec::before{content:'';width:4px;height:22px;background:linear-gradient(var(--acc),var(--acc2));border-radius:3px}
+
+  /* ===== الشات ===== */
+  #chatBox{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;height:520px}
+  #messages{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px}
+  #messages::-webkit-scrollbar{width:6px}
+  #messages::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+  .msg{display:flex;gap:10px;max-width:80%}
+  .msg.me{align-self:flex-end;flex-direction:row-reverse}
+  .msg .av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:bold;flex-shrink:0}
+  .msg .bub{background:var(--bg2);border:1px solid var(--line);padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5;word-break:break-word}
+  .msg.me .bub{background:linear-gradient(135deg,rgba(124,92,255,.25),rgba(0,224,198,.15));border-color:var(--acc)}
+  .msg .name{font-size:11px;color:var(--acc2);margin-bottom:4px;font-weight:bold}
+  .chat-input{display:flex;gap:10px;padding:14px;border-top:1px solid var(--line);background:var(--bg2)}
+  .chat-input input{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 15px;color:var(--txt);outline:none;font-size:14px}
+  .chat-input input:focus{border-color:var(--acc)}
+  .chat-input button{background:linear-gradient(90deg,var(--acc),#9d7cff);border:none;color:#fff;padding:0 22px;border-radius:12px;cursor:pointer;font-weight:bold;font-size:14px}
+  .chat-input button:hover{opacity:.9}
+
+  /* ===== الألعاب ===== */
+  .games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .game-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;text-align:center}
+  .game-card h3{font-size:17px;margin-bottom:8px;color:var(--txt)}
+  .game-card p{font-size:13px;color:var(--muted);margin-bottom:16px}
+  .btn{background:linear-gradient(90deg,var(--acc),#9d7cff);border:none;color:#fff;padding:11px 22px;border-radius:12px;cursor:pointer;font-size:14px;font-weight:bold;transition:.2s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(124,92,255,.35)}
+  .btn.ghost{background:transparent;border:1px solid var(--acc);color:var(--acc)}
+  .btn.gold{background:linear-gradient(90deg,var(--gold),#ff9f1c);color:#1a1a1a}
+
+  /* XO */
+  #xoBoard{display:grid;grid-template-columns:repeat(3,90px);gap:8px;justify-content:center;margin:18px auto}
+  .cell{width:90px;height:90px;background:var(--bg2);border:2px solid var(--line);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:bold;cursor:pointer;transition:.2s;color:var(--acc2)}
+  .cell:hover{border-color:var(--acc);background:#1f2440}
+  .cell.x{color:var(--acc2)}
+  .cell.o{color:var(--gold)}
+  .status{text-align:center;font-size:15px;margin:12px 0;color:var(--muted)}
+  .status b{color:var(--gold)}
+
+  /* RPS */
+  .rps-btns{display:flex;gap:12px;justify-content:center;margin:18px 0;flex-wrap:wrap}
+  .rps-btns button{font-size:36px;background:var(--bg2);border:2px solid var(--line);border-radius:16px;width:80px;height:80px;cursor:pointer;transition:.2s}
+  .rps-btns button:hover{border-color:var(--acc);transform:scale(1.08)}
+  .rps-btns button.picked{border-color:var(--acc2);background:rgba(0,224,198,.15)}
+
+  /* لوحة الصدارة */
+  .lb-row{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:10px;transition:.2s}
+  .lb-row:hover{border-color:var(--acc)}
+  .lb-row .rank{font-size:20px;font-weight:bold;width:36px;color:var(--muted)}
+  .lb-row.top1{border-color:var(--gold);background:linear-gradient(90deg,rgba(255,201,60,.12),transparent)}
+  .lb-row.top1 .rank{color:var(--gold)}
+  .lb-row.top2 .rank{color:#c0c8e0}
+  .lb-row.top3 .rank{color:#e08a3c}
+  .lb-row .nm{flex:1;font-size:15px;font-weight:600}
+  .lb-row .pts{font-size:15px;font-weight:bold;color:var(--gold)}
+
+  /* الأعضاء */
+  .mem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+  .mem{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center;position:relative}
+  .mem .dot{position:absolute;top:12px;left:12px;width:10px;height:10px;border-radius:50%;background:#555}
+  .mem .dot.on{background:var(--ok);box-shadow:0 0 10px var(--ok)}
+  .mem .av{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:bold;margin:0 auto 10px}
+  .mem .nm{font-size:14px;font-weight:600;margin-bottom:4px}
+  .mem .sc{font-size:12px;color:var(--gold)}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--card);border:1px solid var(--acc);color:var(--txt);padding:14px 24px;border-radius:14px;font-size:14px;transition:.3s;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  @media(max-width:600px){
+    #xoBoard{grid-template-columns:repeat(3,70px)}
+    .cell{width:70px;height:70px;font-size:30px}
+    .msg{max-width:92%}
+    main{padding:16px 12px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ شاشة الدخول ============ -->
+<div id="login">
+  <div class="login-box">
+    <h1>🔥 شلة</h1>
+    <p>ادخل باسمك، ولو أول مرة هيتعمللك حساب أوتوماتيك</p>
+    <input id="inName" type="text" placeholder="اسمك (مثال: أحمد)" maxlength="15" />
+    <input id="inPass" type="password" placeholder="كلمة السر" maxlength="20" />
+    <button onclick="doLogin()">دخول</button>
+    <div class="login-msg" id="loginMsg"></div>
+  </div>
+</div>
+
+<!-- ============ التطبيق ============ -->
+<div id="app">
+  <header>
+    <div class="logo">🔥 شلة</div>
+    <div class="user-bar">
+      <div class="chip">💰 <b id="hPoints">0</b> نقطة</div>
+      <div class="chip">💵 <b id="hMoney">0</b> جنيه</div>
+      <div class="avatar" id="hAvatar">؟</div>
+      <div style="font-size:14px" id="hName">-</div>
+      <button class="logout" onclick="logout()">خروج</button>
+    </div>
+  </header>
+
+  <nav>
+    <button class="active" data-page="home">🏠 الرئيسية</button>
+    <button data-page="chat">💬 الشات</button>
+    <button data-page="games">🎮 الألعاب</button>
+    <button data-page="board">🏆 الصدارة</button>
+    <button data-page="members">👥 الأعضاء</button>
+  </nav>
+
+  <main>
+    <!-- الرئيسية -->
+    <section class="page active" id="page-home">
+      <div class="grid">
+        <div class="card"><h3>نقاطك</h3><div class="big" id="cPoints">0</div><div class="sub">كل فوز = 10 نقاط</div></div>
+        <div class="card"><h3>محفظتك</h3><div class="big" id="cMoney">0</div><div class="sub">1 نقطة = 1 جنيه</div></div>
+        <div class="card"><h3>انتصاراتك</h3><div class="big" id="cWins">0</div><div class="sub">عدد الماتشات اللي كسبتها</div></div>
+        <div class="card"><h3>أونلاين دلوقتي</h3><div class="big" id="cOnline">0</div><div class="sub">من أصحابك</div></div>
+      </div>
+      <h2 class="sec">مين موجود دلوقتي</h2>
+      <div class="mem-grid" id="onlineGrid"></div>
+      <h2 class="sec">أحدث الرسائل</h2>
+      <div id="recentMsgs" style="color:var(--muted);font-size:14px"></div>
+    </section>
+
+    <!-- الشات -->
+    <section class="page" id="page-chat">
+      <h2 class="sec">شات الشلة</h2>
+      <div id="chatBox">
+        <div id="messages"></div>
+        <div class="chat-input">
+          <input id="msgInput" placeholder="اكتب رسالة..." onkeydown="if(event.key==='Enter')sendMsg()" />
+          <button onclick="sendMsg()">إرسال</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- الألعاب -->
+    <section class="page" id="page-games">
+      <h2 class="sec">اختار لعبة</h2>
+      <div class="games-grid">
+        <div class="game-card">
+          <h3>❌⭕ إكس-أو أونلاين</h3>
+          <p>العب ضد صاحبك في الوقت الحقيقي. الفايز ياخد 10 نقاط = 10 جنيه.</p>
+          <button class="btn" onclick="openXO()">ابدأ اللعبة</button>
+        </div>
+        <div class="game-card">
+          <h3>✊✋✌️ حجرة ورقة مقص</h3>
+          <p>اختار، استنى صاحبك يختار، والفايز ياخد النقاط.</p>
+          <button class="btn" onclick="openRPS()">ابدأ اللعبة</button>
+        </div>
+        <div class="game-card">
+          <h3>🎯 تخمين الرقم</h3>
+          <p>الكمبيوتر بيختار رقم من 1 لـ 100، خمّن في أقل محاولات.</p>
+          <button class="btn" onclick="openGuess()">ابدأ اللعبة</button>
+        </div>
+      </div>
+      <div id="gameArea" style="margin-top:22px"></div>
+    </section>
+
+    <!-- لوحة الصدارة -->
+    <section class="page" id="page-board">
+      <h2 class="sec">🏆 ترتيب الشلة</h2>
+      <div id="leaderboard"></div>
+    </section>
+
+    <!-- الأعضاء -->
+    <section class="page" id="page-members">
+      <h2 class="sec">👥 كل الأعضاء</h2>
+      <div class="mem-grid" id="allMembers"></div>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   طبقة البيانات — بتشتغل بـ localStorage + BroadcastChannel
+   (عشان تشتغل لحظي بين التابات على نفس الجهاز)
+   ========================================================= */
+const CH = 'shilla_rt';
+const bus = new BroadcastChannel(CH);
+
+const store = {
+  get(k, d=null){ try{ const v = localStorage.getItem('shilla_'+k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ localStorage.setItem('shilla_'+k, JSON.stringify(v)); }
+};
+
+let me = null; // اسم المستخدم الحالي
+
+function save(key, val, broadcast=true){
+  store.set(key, val);
+  if(broadcast) bus.postMessage({type:'sync'});
+}
+
+bus.onmessage = (e) => { if(e.data.type === 'sync') refreshUI(); };
+window.addEventListener('storage', () => refreshUI());
+
+/* ============ تسجيل الدخول ============ */
+function doLogin(){
+  const name = document.getElementById('inName').value.trim();
+  const pass = document.getElementById('inPass').value.trim();
+  const msg  = document.getElementById('loginMsg');
+
+  if(name.length < 2){ msg.textContent = 'اكتب اسمك (حرفين على الأقل)'; return; }
+  if(pass.length < 3){ msg.textContent = 'كلمة السر 3 حروف على الأقل'; return; }
+
+  const users = store.get('users', {});
+  if(users[name]){
+    if(users[name].pass !== pass){ msg.textContent = 'كلمة السر غلط'; return; }
+  } else {
+    users[name] = { pass, points: 0, wins: 0, created: Date.now() };
+    save('users', users);
+  }
+
+  me = name;
+  sessionStorage.setItem('shilla_me', name);
+  startApp();
+}
+
+function logout(){
+  if(me){
+    const on = store.get('online', {});
+    delete on[me];
+    save('online', on);
+  }
+  sessionStorage.removeItem('shilla_me');
+  location.reload();
+}
+
+/* ============ تشغيل التطبيق ============ */
+function startApp(){
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  document.getElementById('hName').textContent = me;
+  document.getElementById('hAvatar').textContent = me.charAt(0).toUpperCase();
+
+  // heartbeat للـ online
+  setOnline();
+  setInterval(setOnline, 5000);
+
+  refreshUI();
+}
+
+function setOnline(){
+  const on = store.get('online', {});
+  on[me] = Date.now();
+  // نظف اللي مش نشط من أكتر من 15 ثانية
+  const now = Date.now();
+  for(const k in on) if(now - on[k] > 15000) delete on[k];
+  save('online', on, true);
+}
+
+function onlineList(){
+  const on = store.get('online', {});
+  const now = Date.now();
+  return Object.keys(on).filter(k => now - on[k] < 15000);
+}
+
+/* ============ التنقل ============ */
+document.querySelectorAll('nav button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('nav button').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById('page-' + b.dataset.page).classList.add('active');
+    refreshUI();
+  });
+});
+
+/* ============ الشات ============ */
+function sendMsg(){
+  const inp = document.getElementById('msgInput');
+  const text = inp.value.trim();
+  if(!text) return;
+  const msgs = store.get('msgs', []);
+  msgs.push({ from: me, text, t: Date.now() });
+  if(msgs.length > 300) msgs.splice(0, msgs.length - 300);
+  save('msgs', msgs);
+  inp.value = '';
+  refreshUI();
+}
+
+function renderChat(){
+  const box = document.getElementById('messages');
+  const msgs = store.get('msgs', []);
+  box.innerHTML = msgs.map(m => `
+    <div class="msg ${m.from === me ? 'me' : ''}">
+      <div class="av">${m.from.charAt(0).toUpperCase()}</div>
+      <div>
+        <div class="name">${escapeHtml(m.from)}</div>
+        <div class="bub">${escapeHtml(m.text)}</div>
+      </div>
+    </div>
+  `).join('');
+  box.scrollTop = box.scrollHeight;
+
+  // آخر 3 رسائل في الرئيسية
+  const recent = msgs.slice(-3).reverse();
+  document.getElementById('recentMsgs').innerHTML = recent.length
+    ? recent.map(m => `<div style="margin-bottom:8px"><b style="color:var(--acc2)">${escapeHtml(m.from)}:</b> ${escapeHtml(m.text)}</div>`).join('')
+    : '<div>لسه مفيش رسائل. ابدأ الكلام 💬</div>';
+}
+
+/* ============ المستخدمين والنقاط ============ */
+function getUsers(){ return store.get('users', {}); }
+
+function addPoints(user, pts){
+  const users = getUsers();
+  if(!users[user]) return;
+  users[user].points += pts;
+  save('users', users);
+}
+
+function addWin(user){
+  const users = getUsers();
+  if(!users[user]) return;
+  users[user].wins = (users[user].wins || 0) + 1;
+  save('users', users);
+}
+
+/* ============ تحديث الواجهة ============ */
+function refreshUI(){
+  if(!me) return;
+  const users = getUsers();
+  const u = users[me] || { points: 0, wins: 0 };
+
+  document.getElementById('hPoints').textContent = u.points;
+  document.getElementById('hMoney').textContent  = u.points; // 1 نقطة = 1 جنيه
+  document.getElementById('cPoints').textContent = u.points;
+  document.getElementById('cMoney').textContent  = u.points;
+  document.getElementById('cWins').textContent   = u.wins || 0;
+
+  const onl = onlineList();
+  document.getElementById('cOnline').textContent = onl.length;
+
+  // شبكة الأونلاين
+  document.getElementById('onlineGrid').innerHTML = onl.length
+    ? onl.map(n => memberCard(n, users[n], true)).join('')
+    : '<div style="color:var(--muted)">محدش أونلاين غيرك 👀</div>';
+
+  // كل الأعضاء
+  const all = Object.keys(users);
+  document.getElementById('allMembers').innerHTML = all.map(n => memberCard(n, users[n], onl.includes(n))).join('');
+
+  // لوحة الصدارة
+  const sorted = all.sort((a,b) => (users[b].points||0) - (users[a].points||0));
+  document.getElementById('leaderboard').innerHTML = sorted.map((n, i) => `
+    <div class="lb-row ${i===0?'top1':i===1?'top2':i===2?'top3':''}">
+      <div class="rank">${i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1)}</div>
+      <div class="av" style="width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;background:linear-gradient(135deg,var(--acc),var(--acc2))">${n.charAt(0).toUpperCase()}</div>
+      <div class="nm">${escapeHtml(n)} ${n===me?'<span style="color:var(--acc2);font-size:12px">(إنت)</span>':''}</div>
+      <div class="pts">${users[n].points||0} نقطة · ${users[n].points||0} ج</div>
+    </div>
+  `).join('');
+
+  renderChat();
+  if(currentGame) renderGame();
+}
+
+function memberCard(name, data, online){
+  data = data || {points:0};
+  return `
+    <div class="mem">
+      <div class="dot ${online?'on':''}"></div>
+      <div class="av">${name.charAt(0).toUpperCase()}</div>
+      <div class="nm">${escapeHtml(name)}</div>
+      <div class="sc">${data.points||0} نقطة · ${data.points||0} ج</div>
+    </div>
+  `;
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* =========================================================
+   الألعاب
+   ========================================================= */
+let currentGame = null;
+
+function openXO(){
+  currentGame = 'xo';
+  const xo = store.get('xo', { board: Array(9).fill(null), players: [], turn: 0, winner: null, round: 0 });
+  // لو اللعبة خلصت من زمان، ابدأ واحدة جديدة
+  if(xo.winner){ startNewXO(); return; }
+  joinXO();
+  renderGame();
+}
+
+function startNewXO(){
+  const xo = { board: Array(9).fill(null), players: [], turn: 0, winner: null, round: (store.get('xo',{round:0}).round||0) + 1 };
+  save('xo', xo);
+  joinXO();
+  renderGame();
+}
+
+function joinXO(){
+  const xo = store.get('xo');
+  if(!xo) return;
+  if(xo.players.includes(me)) return;
+  if(xo.players.length >= 2){ toast('اللعبة مليانة، استنى الجولة الجاية'); return; }
+  xo.players.push(me);
+  save('xo', xo);
+}
+
+function playXO(i){
+  const xo = store.get('xo');
+  if(!xo || xo.winner) return;
+  if(xo.players.length < 2){ toast('مستنيين لاعب تاني ينضم...'); return; }
+  if(xo.players[xo.turn % 2] !== me){ toast('دور صاحبك دلوقتي'); return; }
+  if(xo.board[i]) return;
+
+  xo.board[i] = xo.players[xo.turn % 2];
+  const win = checkWin(xo.board);
+  if(win){
+    xo.winner = win;
+    addPoints(win, 10);
+    addWin(win);
+    if(win === me) toast('🎉 كسبت! +10 نقاط = +10 جنيه');
+  } else if(xo.board.every(c => c)){
+    xo.winner = 'draw';
+  } else {
+    xo.turn++;
+  }
+  save('xo', xo);
+  renderGame();
+  refreshUI();
+}
+
+function checkWin(b){
+  const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  for(const [a,c,d] of lines) if(b[a] && b[a]===b[c] && b[a]===b[d]) return b[a];
+  return null;
+}
+
+function openRPS(){
+  currentGame = 'rps';
+  let rps = store.get('rps', { picks: {}, scores: {}, round: 1 });
+  save('rps', rps);
+  renderGame();
+}
+
+function pickRPS(choice){
+  const rps = store.get('rps', { picks: {}, scores: {}, round: 1 });
+  if(rps.picks[me]) { toast('اخترت خلاص، استنى صاحبك'); return; }
+  rps.picks[me] = choice;
+
+  const pickers = Object.keys(rps.picks);
+  if(pickers.length === 2){
+    const [p1, p2] = pickers;
+    const a = rps.picks[p1], b = rps.picks[p2];
+    let winner = null;
+    if(a !== b){
+      if((a==='rock'&&b==='scissors')||(a==='paper'&&b==='rock')||(a==='scissors'&&b==='paper')) winner = p1;
+      else winner = p2;
+    }
+    rps.lastResult = { p1, p2, a, b, winner, t: Date.now() };
+    if(winner){ addPoints(winner, 10); addWin(winner); }
+    rps.scores[p1] = (rps.scores[p1]||0); rps.scores[p2] = (rps.scores[p2]||0);
+    if(winner) rps.scores[winner]++;
+    rps.round++;
+    rps.picks = {};
+  }
+  save('rps', rps);
+  renderGame();
+  refreshUI();
+}
+
+function openGuess(){
+  currentGame = 'guess';
+  if(!store.get('guess')) newGuessGame();
+  renderGame();
+}
+
+function newGuessGame(){
+  save('guess', { target: Math.floor(Math.random()*100)+1, tries: 0, done: false, owner: me, history: [] });
+}
+
+function guessNumber(){
+  const g = store.get('guess');
+  const inp = document.getElementById('guessIn');
+  const n = parseInt(inp.value);
+  if(!n || n < 1 || n > 100){ toast('اكتب رقم من 1 لـ 100'); return; }
+  g.tries++;
+  g.history.push(n);
+  if(n === g.target){
+    g.done = true;
+    const reward = Math.max(3, 10 - g.tries); // كل ما تخمّن أسرع، نقاط أكتر (من 3 لـ 10)
+    addPoints(me, reward);
+    toast('🎯 صح! كسبت ' + reward + ' نقاط');
+  } else {
+    g.hint = n < g.target ? 'الرقم أكبر ⬆️' : 'الرقم أصغر ⬇️';
+  }
+  save('guess', g);
+  renderGame();
+  refreshUI();
+}
+
+function renderGame(){
+  const area = document.getElementById('gameArea');
+  if(!currentGame){ area.innerHTML = ''; return; }
+
+  if(currentGame === 'xo'){
+    const xo = store.get('xo') || { board: Array(9).fill(null), players: [], turn: 0, winner: null };
+    let status = '';
+    if(xo.players.length < 2) status = '⏳ مستنيين لاعب تاني. ابعت اللينك لصاحبك يفتحه ويدخل.';
+    else if(xo.winner === 'draw') status = '🤝 تعادل! اضغط "جولة جديدة"';
+    else if(xo.winner) status = `🏆 <b>${escapeHtml(xo.winner)}</b> كسب الجولة! (+10 نقاط = +10 جنيه)`;
+    else status = `دور: <b>${escapeHtml(xo.players[xo.turn % 2] || '')}</b> ${xo.players[xo.turn % 2] === me ? '(إنت)' : ''}`;
+
+    area.innerHTML = `
+      <div class="card">
+        <h3 style="font-size:17px;color:var(--txt);margin-bottom:6px">❌⭕ إكس-أو أونلاين</h3>
+        <div class="status">${status}</div>
+        <div id="xoBoard">
+          ${xo.board.map((c,i) => `<div class="cell ${c==='X'?'x':c==='O'?'o':''}" onclick="playXO(${i})">${c==='X'?'✕':c==='O'?'◯':''}</div>`).join('')}
+        </div>
+        <div style="text-align:center;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px">
+          <button class="btn ghost" onclick="startNewXO()">🔄 جولة جديدة</button>
+          <button class="btn gold" onclick="currentGame=null;document.getElementById('gameArea').innerHTML=''">✖️ خروج</button>
+        </div>
+        <div style="text-align:center;color:var(--muted);font-size:12px;margin-top:12px">
+          اللاعبين: ${xo.players.map(p=>escapeHtml(p)).join(' ضد ') || 'مفيش'}
+        </div>
+      </div>
+    `;
+  }
+
+  if(currentGame === 'rps'){
+    const rps = store.get('rps', { picks: {}, scores: {}, round: 1 });
+    const pickers = Object.keys(rps.picks);
+    const emoji = { rock:'✊', paper:'✋', scissors:'✌️' };
+    const ar = { rock:'حجرة', paper:'ورقة', scissors:'مقص' };
+    let res = '';
+    if(rps.lastResult){
+      const r = rps.lastResult;
+      res = `<div class="status" style="margin-top:16px">
+        ${escapeHtml(r.p1)}: ${emoji[r.a]} ${ar[r.a]} &nbsp;ضد&nbsp; ${escapeHtml(r.p2)}: ${emoji[r.b]} ${ar[r.b]}<br>
+        ${r.winner ? `🏆 <b>${escapeHtml(r.winner)}</b> كسب +10 نقاط` : '🤝 تعادل'}
+      </div>`;
+    }
+
+    area.innerHTML = `
+      <div class="card" style="text-align:center">
+        <h3 style="font-size:17px;color:var(--txt);margin-bottom:6px">✊✋✌️ حجرة ورقة مقص</h3>
+        <div class="status">
+          الجولة: <b>${rps.round}</b> &nbsp;|&nbsp; 
+          ${pickers.length === 0 ? 'اختار حركتك' : pickers.includes(me) ? 'استنى صاحبك...' : 'صاحبك اختار! دورك'}
+        </div>
+        <div class="rps-btns">
+          <button class="${rps.picks[me]==='rock'?'picked':''}" onclick="pickRPS('rock')">✊</button>
+          <button class="${rps.picks[me]==='paper'?'picked':''}" onclick="pickRPS('paper')">✋</button>
+          <button class="${rps.picks[me]==='scissors'?'picked':''}" onclick="pickRPS('scissors')">✌️</button>
+        </div>
+        <div class="status">اللاعبين في الجولة: ${pickers.length}/2</div>
+        ${res}
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px">
+          <button class="btn gold" onclick="currentGame=null;document.getElementById('gameArea').innerHTML=''">✖️ خروج</button>
+        </div>
+      </div>
+    `;
+  }
+
+  if(currentGame === 'guess'){
+    const g = store.get('guess') || { target: 0, tries: 0, done: false };
+    let msg = 'خمّن رقم من 1 لـ 100';
+    if(g.done) msg = `🎉 خلصتها في ${g.tries} محاولة`;
+    else if(g.hint) msg = g.hint;
+    const reward = Math.max(3, 10 - g.tries);
+
+    area.innerHTML = `
+      <div class="card" style="text-align:center">
+        <h3 style="font-size:17px;color:var(--txt);margin-bottom:6px">🎯 تخمين الرقم</h3>
+        <div class="status">${msg}</div>
+        ${!g.done ? `
+          <div style="display:flex;gap:10px;justify-content:center;margin:14px 0;flex-wrap:wrap">
+            <input id="guessIn" type="number" min="1" max="100" placeholder="رقم من 1 لـ 100"
+              style="padding:12px 16px;border-radius:12px;background:var(--bg2);border:1px solid var(--line);color:var(--txt);font-size:15px;outline:none;width:200px;text-align:center"
+              onkeydown="if(event.key==='Enter')guessNumber()" />
+            <button class="btn" onclick="guessNumber()">خمّن</button>
+          </div>
+          <div style="color:var(--muted);font-size:13px">المحاولات: ${g.tries} &nbsp;|&nbsp; لو خلصتها دلوقتي هتاخد ${reward} نقاط</div>
+        ` : `
+          <div class="big" style="font-size:34px;margin:14px 0">+${reward}</div>
+          <button class="btn" onclick="newGuessGame();renderGame();">🔄 العب تاني</button>
+        `}
+        <div style="margin-top:14px">
+          <button class="btn gold" onclick="currentGame=null;document.getElementById('gameArea').innerHTML=''">✖️ خروج</button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+/* ============ تشغيل تلقائي لو مسجل دخول قبل كده ============ */
+(function init(){
+  const saved = sessionStorage.getItem('shilla_me');
+  if(saved && store.get('users', {})[saved]){
+    me = saved;
+    startApp();
+  }
+})();
+</script>
+</body>
+</html>
