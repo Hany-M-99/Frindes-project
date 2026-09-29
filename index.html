@@ -2,171 +2,454 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#0b0d17" />
 <title>شلة | موقعنا الخاص</title>
 <style>
   :root{
-    --bg:#0b0d17;
-    --bg2:#131625;
-    --card:#1a1e33;
-    --line:#2a2f4a;
-    --txt:#e8ecff;
-    --muted:#8b93b8;
-    --acc:#7c5cff;
-    --acc2:#00e0c6;
-    --gold:#ffc93c;
-    --danger:#ff4d6d;
-    --ok:#26d07c;
+    --bg:#0b0d17; --bg2:#131625; --card:#1a1e33; --line:#2a2f4a;
+    --txt:#e8ecff; --muted:#8b93b8;
+    --acc:#7c5cff; --acc2:#00e0c6; --gold:#ffc93c;
+    --danger:#ff4d6d; --ok:#26d07c;
   }
-  *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,sans-serif}
-  body{background:radial-gradient(1200px 600px at 50% -10%, #1c2140 0%, var(--bg) 60%);color:var(--txt);min-height:100vh;overflow-x:hidden}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,sans-serif;-webkit-tap-highlight-color:transparent}
+  body{background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden}
 
-  /* ===== شاشة الدخول ===== */
-  #login{
-    position:fixed;inset:0;background:radial-gradient(800px 500px at 50% 30%,#232a52,#0b0d17);
-    display:flex;align-items:center;justify-content:center;z-index:999;padding:20px;
+  /* ============================================================
+     شاشة الدخول / إنشاء الحساب
+     ============================================================ */
+  #auth{
+    position:fixed;inset:0;z-index:999;
+    display:flex;align-items:center;justify-content:center;
+    padding:20px 16px;overflow-y:auto;
+    background:#0b0d17;
   }
-  .login-box{
-    width:100%;max-width:420px;background:var(--card);border:1px solid var(--line);
-    border-radius:20px;padding:35px 28px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);
+  .auth-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+  .blob{
+    position:absolute;border-radius:50%;filter:blur(70px);opacity:.4;
+    animation:float 18s infinite ease-in-out;
   }
-  .login-box h1{font-size:28px;margin-bottom:6px;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .login-box p{color:var(--muted);font-size:14px;margin-bottom:22px}
-  .login-box input{
-    width:100%;padding:13px 15px;margin-bottom:12px;background:var(--bg2);border:1px solid var(--line);
-    border-radius:12px;color:var(--txt);font-size:15px;outline:none;transition:.2s
+  .blob.b1{width:280px;height:280px;background:#7c5cff;top:-80px;right:-60px}
+  .blob.b2{width:240px;height:240px;background:#00e0c6;bottom:-80px;left:-60px;animation-delay:-6s}
+  .blob.b3{width:200px;height:200px;background:#ff5c9d;top:40%;left:50%;animation-delay:-12s;opacity:.25}
+  @keyframes float{
+    0%,100%{transform:translate(0,0) scale(1)}
+    33%{transform:translate(30px,-40px) scale(1.15)}
+    66%{transform:translate(-25px,25px) scale(.9)}
   }
-  .login-box input:focus{border-color:var(--acc)}
-  .login-box button{
-    width:100%;padding:14px;background:linear-gradient(90deg,var(--acc),#9d7cff);border:none;border-radius:12px;
-    color:#fff;font-size:16px;font-weight:bold;cursor:pointer;transition:.2s
-  }
-  .login-box button:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(124,92,255,.4)}
-  .login-msg{margin-top:12px;font-size:13px;color:var(--danger);min-height:18px}
 
-  /* ===== الهيكل العام ===== */
+  .auth-card{
+    position:relative;z-index:2;
+    width:100%;max-width:400px;
+    background:rgba(26,30,51,.85);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(124,92,255,.25);
+    border-radius:24px;
+    padding:32px 22px 26px;
+    box-shadow:0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.03) inset;
+    animation:cardIn .6s cubic-bezier(.2,.9,.3,1.3);
+  }
+  @keyframes cardIn{
+    from{opacity:0;transform:translateY(30px) scale(.94)}
+    to{opacity:1;transform:translateY(0) scale(1)}
+  }
+
+  .brand{text-align:center;margin-bottom:24px}
+  .brand-icon{
+    font-size:44px;display:inline-block;
+    animation:pulse 2.4s infinite ease-in-out;
+    filter:drop-shadow(0 0 20px rgba(255,100,50,.5));
+  }
+  @keyframes pulse{
+    0%,100%{transform:scale(1) rotate(-4deg)}
+    50%{transform:scale(1.12) rotate(4deg)}
+  }
+  .brand h1{
+    font-size:30px;margin-top:6px;letter-spacing:1px;
+    background:linear-gradient(90deg,var(--acc),var(--acc2),var(--acc));
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:gradShift 4s linear infinite;
+  }
+  @keyframes gradShift{
+    0%{background-position:0% 50%}
+    100%{background-position:200% 50%}
+  }
+  .brand p{color:var(--muted);font-size:13.5px;margin-top:6px;transition:.3s}
+
+  .auth-form{display:none;flex-direction:column;gap:16px}
+  .auth-form.active{display:flex;animation:formIn .45s ease}
+  @keyframes formIn{
+    from{opacity:0;transform:translateX(20px)}
+    to{opacity:1;transform:translateX(0)}
+  }
+
+  .field{display:flex;flex-direction:column;gap:8px}
+  .field label{font-size:13px;color:var(--muted);padding-right:4px;font-weight:600}
+  .field input[type="text"],
+  .field input[type="tel"]{
+    width:100%;padding:14px 16px;
+    background:rgba(11,13,23,.7);
+    border:1.5px solid var(--line);
+    border-radius:14px;color:var(--txt);
+    font-size:16px;outline:none;transition:.25s;
+    font-family:inherit;
+  }
+  .field input:focus{
+    border-color:var(--acc);
+    box-shadow:0 0 0 4px rgba(124,92,255,.18);
+    background:rgba(19,22,37,.9);
+  }
+  .field input::placeholder{color:#5a6185}
+
+  /* صناديق كلمة السر (OTP) */
+  .otp{
+    display:flex;gap:7px;justify-content:center;
+    direction:ltr;padding:2px 0;
+  }
+  .otp input{
+    width:44px;height:56px;text-align:center;
+    font-size:24px;font-weight:bold;
+    background:rgba(11,13,23,.7);
+    border:1.5px solid var(--line);
+    border-radius:13px;color:var(--txt);
+    outline:none;transition:.2s;
+    font-family:'Courier New',monospace;
+    padding:0;caret-color:var(--acc2);
+  }
+  .otp input:focus{
+    border-color:var(--acc);
+    box-shadow:0 0 0 4px rgba(124,92,255,.22);
+    transform:translateY(-3px);
+    background:rgba(19,22,37,.95);
+  }
+  .otp input.filled{
+    border-color:var(--acc2);
+    background:rgba(0,224,198,.08);
+    color:var(--acc2);
+  }
+  @media(max-width:380px){
+    .otp{gap:5px}
+    .otp input{width:38px;height:52px;font-size:21px;border-radius:11px}
+  }
+
+  .auth-btn{
+    position:relative;overflow:hidden;
+    width:100%;padding:16px;
+    background:linear-gradient(120deg,var(--acc),#9d7cff,var(--acc));
+    background-size:200% 100%;
+    border:none;border-radius:14px;
+    color:#fff;font-size:16px;font-weight:bold;
+    cursor:pointer;transition:.25s;
+    margin-top:6px;font-family:inherit;
+    animation:gradShift 3s linear infinite;
+    box-shadow:0 10px 25px rgba(124,92,255,.3);
+  }
+  .auth-btn:active{transform:scale(.97)}
+  .auth-btn::after{
+    content:'';position:absolute;top:0;left:-100%;
+    width:50%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+    animation:shine 3s infinite;
+  }
+  @keyframes shine{
+    0%{left:-100%}
+    60%{left:200%}
+    100%{left:200%}
+  }
+
+  .auth-msg{
+    text-align:center;font-size:13px;min-height:20px;
+    transition:.2s;padding:0 4px;
+  }
+  .auth-msg.err{color:var(--danger);animation:shake .4s}
+  .auth-msg.ok{color:var(--ok)}
+  @keyframes shake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-6px)}
+    75%{transform:translateX(6px)}
+  }
+
+  .auth-switch{
+    text-align:center;font-size:13.5px;color:var(--muted);margin-top:4px;
+  }
+  .auth-switch a{
+    color:var(--acc2);cursor:pointer;font-weight:bold;
+    text-decoration:underline;text-underline-offset:3px;transition:.2s;
+  }
+  .auth-switch a:hover{color:var(--acc)}
+  .auth-switch a:active{opacity:.7}
+
+  /* ============================================================
+     التطبيق من الداخل
+     ============================================================ */
   #app{display:none;min-height:100vh;flex-direction:column}
   header{
-    background:rgba(19,22,37,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
-    padding:12px 20px;display:flex;align-items:center;justify-content:space-between;
-    position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:10px
+    background:rgba(19,22,37,.92);backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+    padding:10px 14px;display:flex;align-items:center;justify-content:space-between;
+    position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:8px;
   }
-  .logo{font-size:20px;font-weight:bold;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .user-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-  .chip{background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:6px 14px;font-size:13px;display:flex;align-items:center;gap:6px}
+  .logo{
+    font-size:18px;font-weight:bold;
+    background:linear-gradient(90deg,var(--acc),var(--acc2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .user-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px}
+  .chip{
+    background:var(--bg2);border:1px solid var(--line);
+    border-radius:20px;padding:5px 10px;font-size:12px;
+    display:flex;align-items:center;gap:5px;
+  }
   .chip b{color:var(--gold)}
-  .avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:14px}
-  .logout{background:transparent;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:6px 12px;cursor:pointer;font-size:13px;transition:.2s}
+  .avatar{
+    width:32px;height:32px;border-radius:50%;
+    background:linear-gradient(135deg,var(--acc),var(--acc2));
+    display:flex;align-items:center;justify-content:center;
+    font-weight:bold;font-size:13px;flex-shrink:0;
+  }
+  .logout{
+    background:transparent;border:1px solid var(--danger);
+    color:var(--danger);border-radius:9px;
+    padding:5px 10px;cursor:pointer;font-size:12px;transition:.2s;
+    font-family:inherit;
+  }
   .logout:hover{background:var(--danger);color:#fff}
 
-  /* ===== التبويبات ===== */
-  nav{display:flex;gap:6px;padding:14px 20px;overflow-x:auto;border-bottom:1px solid var(--line);background:rgba(11,13,23,.6)}
+  nav{
+    display:flex;gap:5px;padding:10px 12px;
+    overflow-x:auto;border-bottom:1px solid var(--line);
+    background:rgba(11,13,23,.6);
+    scrollbar-width:none;
+  }
+  nav::-webkit-scrollbar{display:none}
   nav button{
-    background:transparent;border:1px solid var(--line);color:var(--muted);padding:9px 18px;border-radius:30px;
-    cursor:pointer;font-size:14px;white-space:nowrap;transition:.2s
+    background:transparent;border:1px solid var(--line);
+    color:var(--muted);padding:8px 14px;border-radius:30px;
+    cursor:pointer;font-size:13px;white-space:nowrap;transition:.2s;
+    font-family:inherit;
   }
   nav button:hover{color:var(--txt);border-color:var(--acc)}
-  nav button.active{background:linear-gradient(90deg,var(--acc),#9d7cff);color:#fff;border-color:transparent;font-weight:bold}
+  nav button.active{
+    background:linear-gradient(90deg,var(--acc),#9d7cff);
+    color:#fff;border-color:transparent;font-weight:bold;
+  }
 
-  main{flex:1;padding:24px 20px;max-width:1100px;margin:0 auto;width:100%}
+  main{flex:1;padding:18px 14px;max-width:1100px;margin:0 auto;width:100%}
   .page{display:none;animation:fade .3s ease}
   .page.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:22px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;transition:.2s}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px}
+  @media(min-width:600px){.grid{grid-template-columns:repeat(4,1fr)}}
+  .card{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:16px;transition:.2s;
+  }
   .card:hover{border-color:var(--acc);transform:translateY(-3px)}
-  .card h3{font-size:14px;color:var(--muted);margin-bottom:10px;font-weight:normal}
-  .card .big{font-size:30px;font-weight:bold;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .card .sub{font-size:12px;color:var(--muted);margin-top:6px}
+  .card h3{font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:normal}
+  .card .big{
+    font-size:26px;font-weight:bold;
+    background:linear-gradient(90deg,var(--acc),var(--acc2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .card .sub{font-size:11px;color:var(--muted);margin-top:5px}
 
-  h2.sec{font-size:20px;margin:22px 0 14px;display:flex;align-items:center;gap:10px}
-  h2.sec::before{content:'';width:4px;height:22px;background:linear-gradient(var(--acc),var(--acc2));border-radius:3px}
+  h2.sec{font-size:17px;margin:20px 0 12px;display:flex;align-items:center;gap:8px}
+  h2.sec::before{
+    content:'';width:4px;height:20px;
+    background:linear-gradient(var(--acc),var(--acc2));border-radius:3px;
+  }
 
-  /* ===== الشات ===== */
-  #chatBox{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;height:520px}
-  #messages{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px}
-  #messages::-webkit-scrollbar{width:6px}
+  /* الشات */
+  #chatBox{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:16px;overflow:hidden;
+    display:flex;flex-direction:column;height:60vh;min-height:400px;
+  }
+  #messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+  #messages::-webkit-scrollbar{width:5px}
   #messages::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
-  .msg{display:flex;gap:10px;max-width:80%}
+  .msg{display:flex;gap:8px;max-width:85%}
   .msg.me{align-self:flex-end;flex-direction:row-reverse}
-  .msg .av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:bold;flex-shrink:0}
-  .msg .bub{background:var(--bg2);border:1px solid var(--line);padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5;word-break:break-word}
-  .msg.me .bub{background:linear-gradient(135deg,rgba(124,92,255,.25),rgba(0,224,198,.15));border-color:var(--acc)}
-  .msg .name{font-size:11px;color:var(--acc2);margin-bottom:4px;font-weight:bold}
-  .chat-input{display:flex;gap:10px;padding:14px;border-top:1px solid var(--line);background:var(--bg2)}
-  .chat-input input{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 15px;color:var(--txt);outline:none;font-size:14px}
+  .msg .av{
+    width:32px;height:32px;border-radius:50%;
+    background:linear-gradient(135deg,var(--acc),var(--acc2));
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:bold;flex-shrink:0;
+  }
+  .msg .bub{
+    background:var(--bg2);border:1px solid var(--line);
+    padding:9px 13px;border-radius:13px;
+    font-size:14px;line-height:1.5;word-break:break-word;
+  }
+  .msg.me .bub{
+    background:linear-gradient(135deg,rgba(124,92,255,.25),rgba(0,224,198,.15));
+    border-color:var(--acc);
+  }
+  .msg .name{font-size:10.5px;color:var(--acc2);margin-bottom:3px;font-weight:bold}
+  .chat-input{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);background:var(--bg2)}
+  .chat-input input{
+    flex:1;background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:11px 14px;color:var(--txt);
+    outline:none;font-size:14px;font-family:inherit;
+  }
   .chat-input input:focus{border-color:var(--acc)}
-  .chat-input button{background:linear-gradient(90deg,var(--acc),#9d7cff);border:none;color:#fff;padding:0 22px;border-radius:12px;cursor:pointer;font-weight:bold;font-size:14px}
-  .chat-input button:hover{opacity:.9}
+  .chat-input button{
+    background:linear-gradient(90deg,var(--acc),#9d7cff);
+    border:none;color:#fff;padding:0 18px;border-radius:12px;
+    cursor:pointer;font-weight:bold;font-size:13px;font-family:inherit;
+  }
 
-  /* ===== الألعاب ===== */
-  .games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-  .game-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;text-align:center}
-  .game-card h3{font-size:17px;margin-bottom:8px;color:var(--txt)}
-  .game-card p{font-size:13px;color:var(--muted);margin-bottom:16px}
-  .btn{background:linear-gradient(90deg,var(--acc),#9d7cff);border:none;color:#fff;padding:11px 22px;border-radius:12px;cursor:pointer;font-size:14px;font-weight:bold;transition:.2s}
+  /* الألعاب */
+  .games-grid{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:600px){.games-grid{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}}
+  .game-card{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:20px;text-align:center;transition:.2s;
+  }
+  .game-card:hover{border-color:var(--acc);transform:translateY(-3px)}
+  .game-card h3{font-size:16px;margin-bottom:8px;color:var(--txt)}
+  .game-card p{font-size:13px;color:var(--muted);margin-bottom:14px}
+  .btn{
+    background:linear-gradient(90deg,var(--acc),#9d7cff);
+    border:none;color:#fff;padding:11px 20px;border-radius:12px;
+    cursor:pointer;font-size:14px;font-weight:bold;transition:.2s;
+    font-family:inherit;
+  }
   .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(124,92,255,.35)}
+  .btn:active{transform:scale(.97)}
   .btn.ghost{background:transparent;border:1px solid var(--acc);color:var(--acc)}
   .btn.gold{background:linear-gradient(90deg,var(--gold),#ff9f1c);color:#1a1a1a}
 
-  /* XO */
-  #xoBoard{display:grid;grid-template-columns:repeat(3,90px);gap:8px;justify-content:center;margin:18px auto}
-  .cell{width:90px;height:90px;background:var(--bg2);border:2px solid var(--line);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:bold;cursor:pointer;transition:.2s;color:var(--acc2)}
-  .cell:hover{border-color:var(--acc);background:#1f2440}
+  #xoBoard{display:grid;grid-template-columns:repeat(3,80px);gap:8px;justify-content:center;margin:16px auto}
+  @media(max-width:380px){#xoBoard{grid-template-columns:repeat(3,68px)}.cell{width:68px!important;height:68px!important;font-size:30px!important}}
+  .cell{
+    width:80px;height:80px;background:var(--bg2);border:2px solid var(--line);
+    border-radius:14px;display:flex;align-items:center;justify-content:center;
+    font-size:34px;font-weight:bold;cursor:pointer;transition:.2s;
+  }
+  .cell:hover{border-color:var(--acc)}
   .cell.x{color:var(--acc2)}
   .cell.o{color:var(--gold)}
-  .status{text-align:center;font-size:15px;margin:12px 0;color:var(--muted)}
+  .status{text-align:center;font-size:14px;margin:10px 0;color:var(--muted)}
   .status b{color:var(--gold)}
 
-  /* RPS */
-  .rps-btns{display:flex;gap:12px;justify-content:center;margin:18px 0;flex-wrap:wrap}
-  .rps-btns button{font-size:36px;background:var(--bg2);border:2px solid var(--line);border-radius:16px;width:80px;height:80px;cursor:pointer;transition:.2s}
+  .rps-btns{display:flex;gap:10px;justify-content:center;margin:16px 0;flex-wrap:wrap}
+  .rps-btns button{
+    font-size:34px;background:var(--bg2);border:2px solid var(--line);
+    border-radius:16px;width:74px;height:74px;cursor:pointer;transition:.2s;
+  }
   .rps-btns button:hover{border-color:var(--acc);transform:scale(1.08)}
   .rps-btns button.picked{border-color:var(--acc2);background:rgba(0,224,198,.15)}
 
-  /* لوحة الصدارة */
-  .lb-row{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:10px;transition:.2s}
+  .lb-row{
+    display:flex;align-items:center;gap:12px;
+    background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:12px 14px;margin-bottom:8px;transition:.2s;
+  }
   .lb-row:hover{border-color:var(--acc)}
-  .lb-row .rank{font-size:20px;font-weight:bold;width:36px;color:var(--muted)}
+  .lb-row .rank{font-size:18px;font-weight:bold;width:34px;color:var(--muted);flex-shrink:0}
   .lb-row.top1{border-color:var(--gold);background:linear-gradient(90deg,rgba(255,201,60,.12),transparent)}
   .lb-row.top1 .rank{color:var(--gold)}
   .lb-row.top2 .rank{color:#c0c8e0}
   .lb-row.top3 .rank{color:#e08a3c}
-  .lb-row .nm{flex:1;font-size:15px;font-weight:600}
-  .lb-row .pts{font-size:15px;font-weight:bold;color:var(--gold)}
-
-  /* الأعضاء */
-  .mem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
-  .mem{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center;position:relative}
-  .mem .dot{position:absolute;top:12px;left:12px;width:10px;height:10px;border-radius:50%;background:#555}
-  .mem .dot.on{background:var(--ok);box-shadow:0 0 10px var(--ok)}
-  .mem .av{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:bold;margin:0 auto 10px}
-  .mem .nm{font-size:14px;font-weight:600;margin-bottom:4px}
-  .mem .sc{font-size:12px;color:var(--gold)}
-
-  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--card);border:1px solid var(--acc);color:var(--txt);padding:14px 24px;border-radius:14px;font-size:14px;transition:.3s;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.5)}
-  .toast.show{transform:translateX(-50%) translateY(0)}
-
-  @media(max-width:600px){
-    #xoBoard{grid-template-columns:repeat(3,70px)}
-    .cell{width:70px;height:70px;font-size:30px}
-    .msg{max-width:92%}
-    main{padding:16px 12px}
+  .lb-row .av{
+    width:36px;height:36px;border-radius:50%;
+    background:linear-gradient(135deg,var(--acc),var(--acc2));
+    display:flex;align-items:center;justify-content:center;
+    font-weight:bold;flex-shrink:0;font-size:14px;
   }
+  .lb-row .nm{flex:1;font-size:14px;font-weight:600}
+  .lb-row .pts{font-size:13px;font-weight:bold;color:var(--gold);flex-shrink:0}
+
+  .mem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(min-width:600px){.mem-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}}
+  .mem{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:16px;text-align:center;position:relative;
+  }
+  .mem .dot{
+    position:absolute;top:10px;left:10px;width:9px;height:9px;
+    border-radius:50%;background:#555;
+  }
+  .mem .dot.on{background:var(--ok);box-shadow:0 0 8px var(--ok)}
+  .mem .av{
+    width:50px;height:50px;border-radius:50%;
+    background:linear-gradient(135deg,var(--acc),var(--acc2));
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;font-weight:bold;margin:0 auto 8px;
+  }
+  .mem .nm{font-size:14px;font-weight:600;margin-bottom:3px}
+  .mem .sc{font-size:11px;color:var(--gold)}
+
+  .toast{
+    position:fixed;bottom:20px;left:50%;
+    transform:translateX(-50%) translateY(100px);
+    background:var(--card);border:1px solid var(--acc);
+    color:var(--txt);padding:12px 20px;border-radius:14px;
+    font-size:13px;transition:.3s;z-index:9999;
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
+    max-width:90vw;text-align:center;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
 <!-- ============ شاشة الدخول ============ -->
-<div id="login">
-  <div class="login-box">
-    <h1>🔥 شلة</h1>
-    <p>ادخل باسمك، ولو أول مرة هيتعمللك حساب أوتوماتيك</p>
-    <input id="inName" type="text" placeholder="اسمك (مثال: أحمد)" maxlength="15" />
-    <input id="inPass" type="password" placeholder="كلمة السر" maxlength="20" />
-    <button onclick="doLogin()">دخول</button>
-    <div class="login-msg" id="loginMsg"></div>
+<div id="auth">
+  <div class="auth-bg">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <div class="auth-card">
+    <div class="brand">
+      <div class="brand-icon">🔥</div>
+      <h1>شلة</h1>
+      <p id="authSub">انشئ حسابك وابدأ اللعب مع أصحابك</p>
+    </div>
+
+    <!-- ===== إنشاء حساب ===== -->
+    <form class="auth-form active" id="registerForm" onsubmit="event.preventDefault();doRegister()">
+      <div class="field">
+        <label>الاسم</label>
+        <input type="text" id="regName" placeholder="اسمك اللي هيظهر للشلة" maxlength="20" autocomplete="name" />
+      </div>
+      <div class="field">
+        <label>رقم التليفون</label>
+        <input type="tel" inputmode="numeric" id="regPhone" placeholder="01xxxxxxxxx" maxlength="11" autocomplete="tel" />
+      </div>
+      <div class="field">
+        <label>كلمة السر (6 أرقام)</label>
+        <div class="otp" id="regPass"></div>
+      </div>
+      <div class="field">
+        <label>تأكيد كلمة السر</label>
+        <div class="otp" id="regPass2"></div>
+      </div>
+      <button class="auth-btn" type="submit">🚀 إنشاء الحساب</button>
+      <div class="auth-msg" id="regMsg"></div>
+      <div class="auth-switch">لديك حساب بالفعل؟ <a onclick="switchAuth('login')">تسجيل الدخول</a></div>
+    </form>
+
+    <!-- ===== تسجيل دخول ===== -->
+    <form class="auth-form" id="loginForm" onsubmit="event.preventDefault();doLogin()">
+      <div class="field">
+        <label>رقم التليفون</label>
+        <input type="tel" inputmode="numeric" id="logPhone" placeholder="01xxxxxxxxx" maxlength="11" autocomplete="tel" />
+      </div>
+      <div class="field">
+        <label>كلمة السر</label>
+        <div class="otp" id="logPass"></div>
+      </div>
+      <button class="auth-btn" type="submit">🔓 دخول</button>
+      <div class="auth-msg" id="logMsg"></div>
+      <div class="auth-switch">ليس لديك حساب؟ <a onclick="switchAuth('register')">إنشاء حساب</a></div>
+    </form>
   </div>
 </div>
 
@@ -175,10 +458,9 @@
   <header>
     <div class="logo">🔥 شلة</div>
     <div class="user-bar">
-      <div class="chip">💰 <b id="hPoints">0</b> نقطة</div>
-      <div class="chip">💵 <b id="hMoney">0</b> جنيه</div>
+      <div class="chip">💰 <b id="hPoints">0</b></div>
+      <div class="chip">💵 <b id="hMoney">0</b> ج</div>
       <div class="avatar" id="hAvatar">؟</div>
-      <div style="font-size:14px" id="hName">-</div>
       <button class="logout" onclick="logout()">خروج</button>
     </div>
   </header>
@@ -192,13 +474,12 @@
   </nav>
 
   <main>
-    <!-- الرئيسية -->
     <section class="page active" id="page-home">
       <div class="grid">
-        <div class="card"><h3>نقاطك</h3><div class="big" id="cPoints">0</div><div class="sub">كل فوز = 10 نقاط</div></div>
+        <div class="card"><h3>نقاطك</h3><div class="big" id="cPoints">0</div><div class="sub">كل فوز = 10</div></div>
         <div class="card"><h3>محفظتك</h3><div class="big" id="cMoney">0</div><div class="sub">1 نقطة = 1 جنيه</div></div>
-        <div class="card"><h3>انتصاراتك</h3><div class="big" id="cWins">0</div><div class="sub">عدد الماتشات اللي كسبتها</div></div>
-        <div class="card"><h3>أونلاين دلوقتي</h3><div class="big" id="cOnline">0</div><div class="sub">من أصحابك</div></div>
+        <div class="card"><h3>انتصاراتك</h3><div class="big" id="cWins">0</div><div class="sub">ماتشات كسبتها</div></div>
+        <div class="card"><h3>أونلاين</h3><div class="big" id="cOnline">0</div><div class="sub">من أصحابك</div></div>
       </div>
       <h2 class="sec">مين موجود دلوقتي</h2>
       <div class="mem-grid" id="onlineGrid"></div>
@@ -206,7 +487,6 @@
       <div id="recentMsgs" style="color:var(--muted);font-size:14px"></div>
     </section>
 
-    <!-- الشات -->
     <section class="page" id="page-chat">
       <h2 class="sec">شات الشلة</h2>
       <div id="chatBox">
@@ -218,36 +498,33 @@
       </div>
     </section>
 
-    <!-- الألعاب -->
     <section class="page" id="page-games">
       <h2 class="sec">اختار لعبة</h2>
       <div class="games-grid">
         <div class="game-card">
           <h3>❌⭕ إكس-أو أونلاين</h3>
-          <p>العب ضد صاحبك في الوقت الحقيقي. الفايز ياخد 10 نقاط = 10 جنيه.</p>
+          <p>العب ضد صاحبك في الوقت الحقيقي. الفايز +10 نقاط = +10 جنيه</p>
           <button class="btn" onclick="openXO()">ابدأ اللعبة</button>
         </div>
         <div class="game-card">
           <h3>✊✋✌️ حجرة ورقة مقص</h3>
-          <p>اختار، استنى صاحبك يختار، والفايز ياخد النقاط.</p>
+          <p>اختار، استنى صاحبك يختار، والفايز ياخد النقاط</p>
           <button class="btn" onclick="openRPS()">ابدأ اللعبة</button>
         </div>
         <div class="game-card">
           <h3>🎯 تخمين الرقم</h3>
-          <p>الكمبيوتر بيختار رقم من 1 لـ 100، خمّن في أقل محاولات.</p>
+          <p>خمّن رقم من 1 لـ 100 في أقل محاولات. كل ما تكون أسرع، نقاط أكتر</p>
           <button class="btn" onclick="openGuess()">ابدأ اللعبة</button>
         </div>
       </div>
-      <div id="gameArea" style="margin-top:22px"></div>
+      <div id="gameArea" style="margin-top:18px"></div>
     </section>
 
-    <!-- لوحة الصدارة -->
     <section class="page" id="page-board">
       <h2 class="sec">🏆 ترتيب الشلة</h2>
       <div id="leaderboard"></div>
     </section>
 
-    <!-- الأعضاء -->
     <section class="page" id="page-members">
       <h2 class="sec">👥 كل الأعضاء</h2>
       <div class="mem-grid" id="allMembers"></div>
@@ -259,8 +536,7 @@
 
 <script>
 /* =========================================================
-   طبقة البيانات — بتشتغل بـ localStorage + BroadcastChannel
-   (عشان تشتغل لحظي بين التابات على نفس الجهاز)
+   البيانات
    ========================================================= */
 const CH = 'shilla_rt';
 const bus = new BroadcastChannel(CH);
@@ -270,35 +546,167 @@ const store = {
   set(k, v){ localStorage.setItem('shilla_'+k, JSON.stringify(v)); }
 };
 
-let me = null; // اسم المستخدم الحالي
+let me = null;      // رقم التليفون (المعرّف الفريد)
+let myName = null;  // الاسم للعرض
+
+function nameOf(phone){
+  const u = store.get('users', {});
+  return (u[phone] && u[phone].name) || phone;
+}
 
 function save(key, val, broadcast=true){
   store.set(key, val);
   if(broadcast) bus.postMessage({type:'sync'});
 }
-
 bus.onmessage = (e) => { if(e.data.type === 'sync') refreshUI(); };
 window.addEventListener('storage', () => refreshUI());
 
-/* ============ تسجيل الدخول ============ */
-function doLogin(){
-  const name = document.getElementById('inName').value.trim();
-  const pass = document.getElementById('inPass').value.trim();
-  const msg  = document.getElementById('loginMsg');
+/* =========================================================
+   صناديق الـOTP (6 أرقام)
+   ========================================================= */
+function buildOTP(container){
+  container.innerHTML = '';
+  for(let i=0;i<6;i++){
+    const inp = document.createElement('input');
+    inp.type = 'tel';
+    inp.setAttribute('inputmode','numeric');
+    inp.setAttribute('maxlength','1');
+    inp.setAttribute('pattern','[0-9]*');
+    inp.addEventListener('input', e => {
+      const v = e.target.value.replace(/\D/g,'');
+      e.target.value = v.slice(0,1);
+      e.target.classList.toggle('filled', !!e.target.value);
+      if(e.target.value && e.target.nextElementSibling){
+        e.target.nextElementSibling.focus();
+      }
+    });
+    inp.addEventListener('keydown', e => {
+      if(e.key === 'Backspace' && !e.target.value && e.target.previousElementSibling){
+        e.target.previousElementSibling.focus();
+        e.target.previousElementSibling.value = '';
+        e.target.previousElementSibling.classList.remove('filled');
+      }
+      if(e.key === 'ArrowLeft' && e.target.nextElementSibling) e.target.nextElementSibling.focus();
+      if(e.key === 'ArrowRight' && e.target.previousElementSibling) e.target.previousElementSibling.focus();
+    });
+    inp.addEventListener('paste', e => {
+      e.preventDefault();
+      const data = (e.clipboardData.getData('text')||'').replace(/\D/g,'').slice(0,6);
+      const inputs = [...container.querySelectorAll('input')];
+      const start = inputs.indexOf(e.target);
+      data.split('').forEach((d, i) => {
+        if(inputs[start+i]){
+          inputs[start+i].value = d;
+          inputs[start+i].classList.add('filled');
+        }
+      });
+      const last = Math.min(start + data.length, inputs.length - 1);
+      inputs[last].focus();
+    });
+    inp.addEventListener('focus', e => e.target.select());
+    container.appendChild(inp);
+  }
+}
 
-  if(name.length < 2){ msg.textContent = 'اكتب اسمك (حرفين على الأقل)'; return; }
-  if(pass.length < 3){ msg.textContent = 'كلمة السر 3 حروف على الأقل'; return; }
+function otpValue(container){
+  return [...container.querySelectorAll('input')].map(i => i.value).join('');
+}
+function clearOTP(container){
+  container.querySelectorAll('input').forEach(i => {
+    i.value = ''; i.classList.remove('filled');
+  });
+}
+function focusOTP(container){
+  container.querySelector('input')?.focus();
+}
 
-  const users = store.get('users', {});
-  if(users[name]){
-    if(users[name].pass !== pass){ msg.textContent = 'كلمة السر غلط'; return; }
-  } else {
-    users[name] = { pass, points: 0, wins: 0, created: Date.now() };
-    save('users', users);
+/* بناء الصناديق مرة واحدة عند التحميل */
+buildOTP(document.getElementById('regPass'));
+buildOTP(document.getElementById('regPass2'));
+buildOTP(document.getElementById('logPass'));
+
+/* =========================================================
+   التنقل بين الشاشتين
+   ========================================================= */
+function switchAuth(which){
+  document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+  document.getElementById(which === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
+  document.getElementById('authSub').textContent = which === 'login'
+    ? 'أهلاً بيك تاني 👋'
+    : 'انشئ حسابك وابدأ اللعب مع أصحابك';
+  document.getElementById('regMsg').textContent = '';
+  document.getElementById('regMsg').className = 'auth-msg';
+  document.getElementById('logMsg').textContent = '';
+  document.getElementById('logMsg').className = 'auth-msg';
+}
+
+function showAuthMsg(el, text, type='err'){
+  el.textContent = text;
+  el.className = 'auth-msg ' + type;
+  if(type === 'err'){
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = '';
+  }
+}
+
+/* =========================================================
+   إنشاء حساب
+   ========================================================= */
+function doRegister(){
+  const name   = document.getElementById('regName').value.trim();
+  const phone  = document.getElementById('regPhone').value.trim();
+  const p1     = otpValue(document.getElementById('regPass'));
+  const p2     = otpValue(document.getElementById('regPass2'));
+  const msg    = document.getElementById('regMsg');
+
+  if(name.length < 2)          return showAuthMsg(msg,'الاسم لازم حرفين على الأقل');
+  if(!/^01\d{9}$/.test(phone)) return showAuthMsg(msg,'رقم التليفون لازم 11 رقم ويبدأ بـ 01');
+  if(p1.length !== 6)          return showAuthMsg(msg,'كلمة السر لازم 6 أرقام بالظبط');
+  if(p1 !== p2){
+    showAuthMsg(msg,'كلمتا السر مش متطابقتين');
+    clearOTP(document.getElementById('regPass2'));
+    focusOTP(document.getElementById('regPass2'));
+    return;
   }
 
-  me = name;
-  sessionStorage.setItem('shilla_me', name);
+  const users = store.get('users', {});
+  if(users[phone]) return showAuthMsg(msg,'الرقم ده مسجل قبل كده، جرب تسجيل الدخول');
+
+  users[phone] = { name, pass: p1, points: 0, wins: 0, created: Date.now() };
+  save('users', users);
+
+  showAuthMsg(msg, '✅ تم إنشاء الحساب! جاري الدخول...', 'ok');
+  setTimeout(() => {
+    me = phone;
+    myName = name;
+    sessionStorage.setItem('shilla_me', phone);
+    startApp();
+  }, 800);
+}
+
+/* =========================================================
+   تسجيل دخول
+   ========================================================= */
+function doLogin(){
+  const phone = document.getElementById('logPhone').value.trim();
+  const p     = otpValue(document.getElementById('logPass'));
+  const msg   = document.getElementById('logMsg');
+
+  if(!/^01\d{9}$/.test(phone)) return showAuthMsg(msg,'رقم التليفون غلط');
+  if(p.length !== 6)           return showAuthMsg(msg,'كلمة السر لازم 6 أرقام');
+
+  const users = store.get('users', {});
+  if(!users[phone])            return showAuthMsg(msg,'مفيش حساب بالرقم ده');
+  if(users[phone].pass !== p){
+    clearOTP(document.getElementById('logPass'));
+    focusOTP(document.getElementById('logPass'));
+    return showAuthMsg(msg,'كلمة السر غلط');
+  }
+
+  me = phone;
+  myName = users[phone].name;
+  sessionStorage.setItem('shilla_me', phone);
   startApp();
 }
 
@@ -312,14 +720,14 @@ function logout(){
   location.reload();
 }
 
-/* ============ تشغيل التطبيق ============ */
+/* =========================================================
+   تشغيل التطبيق
+   ========================================================= */
 function startApp(){
-  document.getElementById('login').style.display = 'none';
+  document.getElementById('auth').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
-  document.getElementById('hName').textContent = me;
-  document.getElementById('hAvatar').textContent = me.charAt(0).toUpperCase();
+  document.getElementById('hAvatar').textContent = (myName||'؟').charAt(0).toUpperCase();
 
-  // heartbeat للـ online
   setOnline();
   setInterval(setOnline, 5000);
 
@@ -329,7 +737,6 @@ function startApp(){
 function setOnline(){
   const on = store.get('online', {});
   on[me] = Date.now();
-  // نظف اللي مش نشط من أكتر من 15 ثانية
   const now = Date.now();
   for(const k in on) if(now - on[k] > 15000) delete on[k];
   save('online', on, true);
@@ -341,7 +748,7 @@ function onlineList(){
   return Object.keys(on).filter(k => now - on[k] < 15000);
 }
 
-/* ============ التنقل ============ */
+/* التنقل */
 document.querySelectorAll('nav button').forEach(b => {
   b.addEventListener('click', () => {
     document.querySelectorAll('nav button').forEach(x => x.classList.remove('active'));
@@ -352,7 +759,9 @@ document.querySelectorAll('nav button').forEach(b => {
   });
 });
 
-/* ============ الشات ============ */
+/* =========================================================
+   الشات
+   ========================================================= */
 function sendMsg(){
   const inp = document.getElementById('msgInput');
   const text = inp.value.trim();
@@ -368,88 +777,94 @@ function sendMsg(){
 function renderChat(){
   const box = document.getElementById('messages');
   const msgs = store.get('msgs', []);
-  box.innerHTML = msgs.map(m => `
-    <div class="msg ${m.from === me ? 'me' : ''}">
-      <div class="av">${m.from.charAt(0).toUpperCase()}</div>
-      <div>
-        <div class="name">${escapeHtml(m.from)}</div>
-        <div class="bub">${escapeHtml(m.text)}</div>
+  box.innerHTML = msgs.map(m => {
+    const nm = nameOf(m.from);
+    return `
+      <div class="msg ${m.from === me ? 'me' : ''}">
+        <div class="av">${escapeHtml(nm.charAt(0).toUpperCase())}</div>
+        <div>
+          <div class="name">${escapeHtml(nm)}</div>
+          <div class="bub">${escapeHtml(m.text)}</div>
+        </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
   box.scrollTop = box.scrollHeight;
 
-  // آخر 3 رسائل في الرئيسية
   const recent = msgs.slice(-3).reverse();
   document.getElementById('recentMsgs').innerHTML = recent.length
-    ? recent.map(m => `<div style="margin-bottom:8px"><b style="color:var(--acc2)">${escapeHtml(m.from)}:</b> ${escapeHtml(m.text)}</div>`).join('')
+    ? recent.map(m => `<div style="margin-bottom:8px"><b style="color:var(--acc2)">${escapeHtml(nameOf(m.from))}:</b> ${escapeHtml(m.text)}</div>`).join('')
     : '<div>لسه مفيش رسائل. ابدأ الكلام 💬</div>';
 }
 
-/* ============ المستخدمين والنقاط ============ */
+/* =========================================================
+   المستخدمين والنقاط
+   ========================================================= */
 function getUsers(){ return store.get('users', {}); }
 
-function addPoints(user, pts){
+function addPoints(userPhone, pts){
   const users = getUsers();
-  if(!users[user]) return;
-  users[user].points += pts;
+  if(!users[userPhone]) return;
+  users[userPhone].points = (users[userPhone].points || 0) + pts;
+  save('users', users);
+}
+function addWin(userPhone){
+  const users = getUsers();
+  if(!users[userPhone]) return;
+  users[userPhone].wins = (users[userPhone].wins || 0) + 1;
   save('users', users);
 }
 
-function addWin(user){
-  const users = getUsers();
-  if(!users[user]) return;
-  users[user].wins = (users[user].wins || 0) + 1;
-  save('users', users);
-}
-
-/* ============ تحديث الواجهة ============ */
+/* =========================================================
+   تحديث الواجهة
+   ========================================================= */
 function refreshUI(){
   if(!me) return;
   const users = getUsers();
   const u = users[me] || { points: 0, wins: 0 };
 
-  document.getElementById('hPoints').textContent = u.points;
-  document.getElementById('hMoney').textContent  = u.points; // 1 نقطة = 1 جنيه
-  document.getElementById('cPoints').textContent = u.points;
-  document.getElementById('cMoney').textContent  = u.points;
-  document.getElementById('cWins').textContent   = u.wins || 0;
+  document.getElementById('hPoints').textContent = u.points || 0;
+  document.getElementById('hMoney').textContent  = u.points || 0;
+  document.getElementById('cPoints').textContent = u.points || 0;
+  document.getElementById('cMoney').textContent  = u.points || 0;
+  document.getElementById('cWins').textContent   = u.wins   || 0;
 
   const onl = onlineList();
   document.getElementById('cOnline').textContent = onl.length;
 
-  // شبكة الأونلاين
   document.getElementById('onlineGrid').innerHTML = onl.length
-    ? onl.map(n => memberCard(n, users[n], true)).join('')
-    : '<div style="color:var(--muted)">محدش أونلاين غيرك 👀</div>';
+    ? onl.map(p => memberCard(p, users[p], true)).join('')
+    : '<div style="color:var(--muted);grid-column:1/-1">محدش أونلاين غيرك 👀</div>';
 
-  // كل الأعضاء
   const all = Object.keys(users);
-  document.getElementById('allMembers').innerHTML = all.map(n => memberCard(n, users[n], onl.includes(n))).join('');
+  document.getElementById('allMembers').innerHTML = all.map(p => memberCard(p, users[p], onl.includes(p))).join('');
 
-  // لوحة الصدارة
-  const sorted = all.sort((a,b) => (users[b].points||0) - (users[a].points||0));
-  document.getElementById('leaderboard').innerHTML = sorted.map((n, i) => `
-    <div class="lb-row ${i===0?'top1':i===1?'top2':i===2?'top3':''}">
-      <div class="rank">${i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1)}</div>
-      <div class="av" style="width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;background:linear-gradient(135deg,var(--acc),var(--acc2))">${n.charAt(0).toUpperCase()}</div>
-      <div class="nm">${escapeHtml(n)} ${n===me?'<span style="color:var(--acc2);font-size:12px">(إنت)</span>':''}</div>
-      <div class="pts">${users[n].points||0} نقطة · ${users[n].points||0} ج</div>
-    </div>
-  `).join('');
+  const sorted = all.slice().sort((a,b) => (users[b].points||0) - (users[a].points||0));
+  document.getElementById('leaderboard').innerHTML = sorted.map((p, i) => {
+    const nm = users[p].name || p;
+    return `
+      <div class="lb-row ${i===0?'top1':i===1?'top2':i===2?'top3':''}">
+        <div class="rank">${i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1)}</div>
+        <div class="av">${escapeHtml(nm.charAt(0).toUpperCase())}</div>
+        <div class="nm">${escapeHtml(nm)} ${p===me?'<span style="color:var(--acc2);font-size:11px">(إنت)</span>':''}</div>
+        <div class="pts">${users[p].points||0} · ${users[p].points||0}ج</div>
+      </div>
+    `;
+  }).join('');
 
   renderChat();
   if(currentGame) renderGame();
 }
 
-function memberCard(name, data, online){
-  data = data || {points:0};
+function memberCard(phone, data, online){
+  data = data || {points:0, name:phone};
+  const nm = data.name || phone;
   return `
     <div class="mem">
       <div class="dot ${online?'on':''}"></div>
-      <div class="av">${name.charAt(0).toUpperCase()}</div>
-      <div class="nm">${escapeHtml(name)}</div>
-      <div class="sc">${data.points||0} نقطة · ${data.points||0} ج</div>
+      <div class="av">${escapeHtml(nm.charAt(0).toUpperCase())}</div>
+      <div class="nm">${escapeHtml(nm)}</div>
+      <div class="sc">${data.points||0} · ${data.points||0}ج</div>
     </div>
   `;
 }
@@ -457,7 +872,6 @@ function memberCard(name, data, online){
 function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-
 function toast(msg){
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -473,19 +887,16 @@ let currentGame = null;
 function openXO(){
   currentGame = 'xo';
   const xo = store.get('xo', { board: Array(9).fill(null), players: [], turn: 0, winner: null, round: 0 });
-  // لو اللعبة خلصت من زمان، ابدأ واحدة جديدة
   if(xo.winner){ startNewXO(); return; }
   joinXO();
   renderGame();
 }
-
 function startNewXO(){
   const xo = { board: Array(9).fill(null), players: [], turn: 0, winner: null, round: (store.get('xo',{round:0}).round||0) + 1 };
   save('xo', xo);
   joinXO();
   renderGame();
 }
-
 function joinXO(){
   const xo = store.get('xo');
   if(!xo) return;
@@ -494,7 +905,6 @@ function joinXO(){
   xo.players.push(me);
   save('xo', xo);
 }
-
 function playXO(i){
   const xo = store.get('xo');
   if(!xo || xo.winner) return;
@@ -518,7 +928,6 @@ function playXO(i){
   renderGame();
   refreshUI();
 }
-
 function checkWin(b){
   const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
   for(const [a,c,d] of lines) if(b[a] && b[a]===b[c] && b[a]===b[d]) return b[a];
@@ -527,16 +936,13 @@ function checkWin(b){
 
 function openRPS(){
   currentGame = 'rps';
-  let rps = store.get('rps', { picks: {}, scores: {}, round: 1 });
-  save('rps', rps);
+  if(!store.get('rps')) save('rps', { picks:{}, scores:{}, round:1 });
   renderGame();
 }
-
 function pickRPS(choice){
-  const rps = store.get('rps', { picks: {}, scores: {}, round: 1 });
-  if(rps.picks[me]) { toast('اخترت خلاص، استنى صاحبك'); return; }
+  const rps = store.get('rps', { picks:{}, scores:{}, round:1 });
+  if(rps.picks[me]){ toast('اخترت خلاص، استنى صاحبك'); return; }
   rps.picks[me] = choice;
-
   const pickers = Object.keys(rps.picks);
   if(pickers.length === 2){
     const [p1, p2] = pickers;
@@ -548,8 +954,6 @@ function pickRPS(choice){
     }
     rps.lastResult = { p1, p2, a, b, winner, t: Date.now() };
     if(winner){ addPoints(winner, 10); addWin(winner); }
-    rps.scores[p1] = (rps.scores[p1]||0); rps.scores[p2] = (rps.scores[p2]||0);
-    if(winner) rps.scores[winner]++;
     rps.round++;
     rps.picks = {};
   }
@@ -563,11 +967,9 @@ function openGuess(){
   if(!store.get('guess')) newGuessGame();
   renderGame();
 }
-
 function newGuessGame(){
-  save('guess', { target: Math.floor(Math.random()*100)+1, tries: 0, done: false, owner: me, history: [] });
+  save('guess', { target: Math.floor(Math.random()*100)+1, tries: 0, done: false, history: [] });
 }
-
 function guessNumber(){
   const g = store.get('guess');
   const inp = document.getElementById('guessIn');
@@ -577,7 +979,7 @@ function guessNumber(){
   g.history.push(n);
   if(n === g.target){
     g.done = true;
-    const reward = Math.max(3, 10 - g.tries); // كل ما تخمّن أسرع، نقاط أكتر (من 3 لـ 10)
+    const reward = Math.max(3, 10 - g.tries);
     addPoints(me, reward);
     toast('🎯 صح! كسبت ' + reward + ' نقاط');
   } else {
@@ -597,12 +999,12 @@ function renderGame(){
     let status = '';
     if(xo.players.length < 2) status = '⏳ مستنيين لاعب تاني. ابعت اللينك لصاحبك يفتحه ويدخل.';
     else if(xo.winner === 'draw') status = '🤝 تعادل! اضغط "جولة جديدة"';
-    else if(xo.winner) status = `🏆 <b>${escapeHtml(xo.winner)}</b> كسب الجولة! (+10 نقاط = +10 جنيه)`;
-    else status = `دور: <b>${escapeHtml(xo.players[xo.turn % 2] || '')}</b> ${xo.players[xo.turn % 2] === me ? '(إنت)' : ''}`;
+    else if(xo.winner) status = `🏆 <b>${escapeHtml(nameOf(xo.winner))}</b> كسب الجولة! (+10 نقاط = +10 جنيه)`;
+    else status = `دور: <b>${escapeHtml(nameOf(xo.players[xo.turn % 2] || ''))}</b> ${xo.players[xo.turn % 2] === me ? '(إنت)' : ''}`;
 
     area.innerHTML = `
       <div class="card">
-        <h3 style="font-size:17px;color:var(--txt);margin-bottom:6px">❌⭕ إكس-أو أونلاين</h3>
+        <h3 style="font-size:16px;color:var(--txt);margin-bottom:6px">❌⭕ إكس-أو أونلاين</h3>
         <div class="status">${status}</div>
         <div id="xoBoard">
           ${xo.board.map((c,i) => `<div class="cell ${c==='X'?'x':c==='O'?'o':''}" onclick="playXO(${i})">${c==='X'?'✕':c==='O'?'◯':''}</div>`).join('')}
@@ -611,33 +1013,31 @@ function renderGame(){
           <button class="btn ghost" onclick="startNewXO()">🔄 جولة جديدة</button>
           <button class="btn gold" onclick="currentGame=null;document.getElementById('gameArea').innerHTML=''">✖️ خروج</button>
         </div>
-        <div style="text-align:center;color:var(--muted);font-size:12px;margin-top:12px">
-          اللاعبين: ${xo.players.map(p=>escapeHtml(p)).join(' ضد ') || 'مفيش'}
+        <div style="text-align:center;color:var(--muted);font-size:12px;margin-top:10px">
+          اللاعبين: ${xo.players.map(p=>escapeHtml(nameOf(p))).join(' ضد ') || 'مفيش'}
         </div>
       </div>
     `;
   }
 
   if(currentGame === 'rps'){
-    const rps = store.get('rps', { picks: {}, scores: {}, round: 1 });
+    const rps = store.get('rps', { picks:{}, scores:{}, round:1 });
     const pickers = Object.keys(rps.picks);
     const emoji = { rock:'✊', paper:'✋', scissors:'✌️' };
     const ar = { rock:'حجرة', paper:'ورقة', scissors:'مقص' };
     let res = '';
     if(rps.lastResult){
       const r = rps.lastResult;
-      res = `<div class="status" style="margin-top:16px">
-        ${escapeHtml(r.p1)}: ${emoji[r.a]} ${ar[r.a]} &nbsp;ضد&nbsp; ${escapeHtml(r.p2)}: ${emoji[r.b]} ${ar[r.b]}<br>
-        ${r.winner ? `🏆 <b>${escapeHtml(r.winner)}</b> كسب +10 نقاط` : '🤝 تعادل'}
+      res = `<div class="status" style="margin-top:14px">
+        ${escapeHtml(nameOf(r.p1))}: ${emoji[r.a]} ${ar[r.a]} &nbsp;ضد&nbsp; ${escapeHtml(nameOf(r.p2))}: ${emoji[r.b]} ${ar[r.b]}<br>
+        ${r.winner ? `🏆 <b>${escapeHtml(nameOf(r.winner))}</b> كسب +10 نقاط` : '🤝 تعادل'}
       </div>`;
     }
-
     area.innerHTML = `
       <div class="card" style="text-align:center">
-        <h3 style="font-size:17px;color:var(--txt);margin-bottom:6px">✊✋✌️ حجرة ورقة مقص</h3>
+        <h3 style="font-size:16px;color:var(--txt);margin-bottom:6px">✊✋✌️ حجرة ورقة مقص</h3>
         <div class="status">
-          الجولة: <b>${rps.round}</b> &nbsp;|&nbsp; 
-          ${pickers.length === 0 ? 'اختار حركتك' : pickers.includes(me) ? 'استنى صاحبك...' : 'صاحبك اختار! دورك'}
+          الجولة: <b>${rps.round}</b> · ${pickers.length === 0 ? 'اختار حركتك' : pickers.includes(me) ? 'استنى صاحبك...' : 'صاحبك اختار! دورك'}
         </div>
         <div class="rps-btns">
           <button class="${rps.picks[me]==='rock'?'picked':''}" onclick="pickRPS('rock')">✊</button>
@@ -646,7 +1046,7 @@ function renderGame(){
         </div>
         <div class="status">اللاعبين في الجولة: ${pickers.length}/2</div>
         ${res}
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px">
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px">
           <button class="btn gold" onclick="currentGame=null;document.getElementById('gameArea').innerHTML=''">✖️ خروج</button>
         </div>
       </div>
@@ -654,7 +1054,7 @@ function renderGame(){
   }
 
   if(currentGame === 'guess'){
-    const g = store.get('guess') || { target: 0, tries: 0, done: false };
+    const g = store.get('guess') || { target:0, tries:0, done:false };
     let msg = 'خمّن رقم من 1 لـ 100';
     if(g.done) msg = `🎉 خلصتها في ${g.tries} محاولة`;
     else if(g.hint) msg = g.hint;
@@ -662,21 +1062,21 @@ function renderGame(){
 
     area.innerHTML = `
       <div class="card" style="text-align:center">
-        <h3 style="font-size:17px;color:var(--txt);margin-bottom:6px">🎯 تخمين الرقم</h3>
+        <h3 style="font-size:16px;color:var(--txt);margin-bottom:6px">🎯 تخمين الرقم</h3>
         <div class="status">${msg}</div>
         ${!g.done ? `
-          <div style="display:flex;gap:10px;justify-content:center;margin:14px 0;flex-wrap:wrap">
-            <input id="guessIn" type="number" min="1" max="100" placeholder="رقم من 1 لـ 100"
-              style="padding:12px 16px;border-radius:12px;background:var(--bg2);border:1px solid var(--line);color:var(--txt);font-size:15px;outline:none;width:200px;text-align:center"
+          <div style="display:flex;gap:10px;justify-content:center;margin:12px 0;flex-wrap:wrap">
+            <input id="guessIn" type="number" min="1" max="100" placeholder="رقم"
+              style="padding:12px 16px;border-radius:12px;background:var(--bg2);border:1px solid var(--line);color:var(--txt);font-size:15px;outline:none;width:140px;text-align:center"
               onkeydown="if(event.key==='Enter')guessNumber()" />
             <button class="btn" onclick="guessNumber()">خمّن</button>
           </div>
-          <div style="color:var(--muted);font-size:13px">المحاولات: ${g.tries} &nbsp;|&nbsp; لو خلصتها دلوقتي هتاخد ${reward} نقاط</div>
+          <div style="color:var(--muted);font-size:12px">المحاولات: ${g.tries} · لو خلصتها دلوقتي هتاخد ${reward} نقاط</div>
         ` : `
-          <div class="big" style="font-size:34px;margin:14px 0">+${reward}</div>
+          <div class="big" style="font-size:32px;margin:12px 0">+${reward}</div>
           <button class="btn" onclick="newGuessGame();renderGame();">🔄 العب تاني</button>
         `}
-        <div style="margin-top:14px">
+        <div style="margin-top:12px">
           <button class="btn gold" onclick="currentGame=null;document.getElementById('gameArea').innerHTML=''">✖️ خروج</button>
         </div>
       </div>
@@ -684,12 +1084,19 @@ function renderGame(){
   }
 }
 
-/* ============ تشغيل تلقائي لو مسجل دخول قبل كده ============ */
+/* =========================================================
+   استرجاع الجلسة
+   ========================================================= */
 (function init(){
   const saved = sessionStorage.getItem('shilla_me');
-  if(saved && store.get('users', {})[saved]){
+  const users = store.get('users', {});
+  if(saved && users[saved]){
     me = saved;
+    myName = users[saved].name;
     startApp();
+  } else {
+    // ركّز على أول صندوق في شاشة التسجيل
+    setTimeout(() => focusOTP(document.getElementById('regPass')), 400);
   }
 })();
 </script>
