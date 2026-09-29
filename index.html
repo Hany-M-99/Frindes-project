@@ -2,8 +2,9 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 <meta name="theme-color" content="#0b0d17" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
 <title>شلة | موقعنا الخاص</title>
 <style>
   :root{
@@ -12,400 +13,297 @@
     --acc:#7c5cff; --acc2:#00e0c6; --gold:#ffc93c;
     --danger:#ff4d6d; --ok:#26d07c;
   }
-  *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,sans-serif;-webkit-tap-highlight-color:transparent}
-  body{background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden}
+  *{box-sizing:border-box;margin:0;padding:0;
+    font-family:'Segoe UI',Tahoma,sans-serif;
+    -webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;}
+  html,body{height:100%;width:100%;overflow:hidden;position:fixed;inset:0;
+    background:var(--bg);color:var(--txt);overscroll-behavior:none;touch-action:manipulation;}
 
-  /* ============================================================
-     شاشة الدخول / إنشاء الحساب
-     ============================================================ */
-  #auth{
-    position:fixed;inset:0;z-index:999;
-    display:flex;align-items:center;justify-content:center;
-    padding:20px 16px;overflow-y:auto;
-    background:#0b0d17;
-  }
-  .auth-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-  .blob{
-    position:absolute;border-radius:50%;filter:blur(70px);opacity:.4;
-    animation:float 18s infinite ease-in-out;
-  }
-  .blob.b1{width:280px;height:280px;background:#7c5cff;top:-80px;right:-60px}
-  .blob.b2{width:240px;height:240px;background:#00e0c6;bottom:-80px;left:-60px;animation-delay:-6s}
-  .blob.b3{width:200px;height:200px;background:#ff5c9d;top:40%;left:50%;animation-delay:-12s;opacity:.25}
-  @keyframes float{
-    0%,100%{transform:translate(0,0) scale(1)}
-    33%{transform:translate(30px,-40px) scale(1.15)}
-    66%{transform:translate(-25px,25px) scale(.9)}
-  }
+  /* ============ شاشة الدخول ============ */
+  #auth{position:fixed;inset:0;height:100dvh;width:100vw;display:flex;
+    align-items:center;justify-content:center;padding:16px;overflow:hidden;
+    background:radial-gradient(900px 600px at 20% 10%,#232a52 0%,transparent 55%),
+               radial-gradient(700px 500px at 90% 90%,#2a1b4a 0%,transparent 55%),#0b0d17;}
+  .auth-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+  .blob{position:absolute;border-radius:50%;filter:blur(80px);animation:float 20s infinite ease-in-out}
+  .blob.b1{width:300px;height:300px;background:#7c5cff;top:-100px;right:-80px;opacity:.55}
+  .blob.b2{width:260px;height:260px;background:#00e0c6;bottom:-100px;left:-80px;opacity:.45;animation-delay:-7s}
+  .blob.b3{width:220px;height:220px;background:#ff5c9d;top:45%;left:55%;opacity:.35;animation-delay:-13s}
+  @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-50px) scale(1.18)}66%{transform:translate(-30px,30px) scale(.9)}}
 
-  .auth-card{
-    position:relative;z-index:2;
-    width:100%;max-width:400px;
-    background:rgba(26,30,51,.85);
-    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-    border:1px solid rgba(124,92,255,.25);
-    border-radius:24px;
-    padding:32px 22px 26px;
-    box-shadow:0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.03) inset;
-    animation:cardIn .6s cubic-bezier(.2,.9,.3,1.3);
-  }
-  @keyframes cardIn{
-    from{opacity:0;transform:translateY(30px) scale(.94)}
-    to{opacity:1;transform:translateY(0) scale(1)}
-  }
-
-  .brand{text-align:center;margin-bottom:24px}
-  .brand-icon{
-    font-size:44px;display:inline-block;
-    animation:pulse 2.4s infinite ease-in-out;
-    filter:drop-shadow(0 0 20px rgba(255,100,50,.5));
-  }
-  @keyframes pulse{
-    0%,100%{transform:scale(1) rotate(-4deg)}
-    50%{transform:scale(1.12) rotate(4deg)}
-  }
-  .brand h1{
-    font-size:30px;margin-top:6px;letter-spacing:1px;
+  .auth-card{position:relative;z-index:2;width:100%;max-width:400px;max-height:96dvh;
+    overflow-y:auto;scrollbar-width:none;
+    background:rgba(26,30,51,.42);backdrop-filter:blur(30px) saturate(160%);
+    -webkit-backdrop-filter:blur(30px) saturate(160%);
+    border:1px solid rgba(255,255,255,.12);border-radius:26px;padding:26px 22px 22px;
+    box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 0 1px rgba(124,92,255,.18) inset,0 1px 0 rgba(255,255,255,.08) inset;
+    animation:cardIn .6s cubic-bezier(.2,.9,.3,1.3);}
+  .auth-card::-webkit-scrollbar{display:none}
+  @keyframes cardIn{from{opacity:0;transform:translateY(30px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+  .brand{text-align:center;margin-bottom:18px}
+  .brand-icon{font-size:40px;display:inline-block;animation:pulse 2.4s infinite ease-in-out;filter:drop-shadow(0 0 22px rgba(255,100,50,.6))}
+  @keyframes pulse{0%,100%{transform:scale(1) rotate(-4deg)}50%{transform:scale(1.12) rotate(4deg)}}
+  .brand h1{font-size:26px;margin-top:4px;letter-spacing:1px;
     background:linear-gradient(90deg,var(--acc),var(--acc2),var(--acc));
-    background-size:200% 100%;
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    animation:gradShift 4s linear infinite;
-  }
-  @keyframes gradShift{
-    0%{background-position:0% 50%}
-    100%{background-position:200% 50%}
-  }
-  .brand p{color:var(--muted);font-size:13.5px;margin-top:6px;transition:.3s}
-
-  .auth-form{display:none;flex-direction:column;gap:16px}
+    background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:gradShift 4s linear infinite}
+  @keyframes gradShift{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+  .brand p{color:var(--muted);font-size:12.5px;margin-top:4px}
+  .auth-form{display:none;flex-direction:column;gap:12px}
   .auth-form.active{display:flex;animation:formIn .45s ease}
-  @keyframes formIn{
-    from{opacity:0;transform:translateX(20px)}
-    to{opacity:1;transform:translateX(0)}
-  }
-
-  .field{display:flex;flex-direction:column;gap:8px}
-  .field label{font-size:13px;color:var(--muted);padding-right:4px;font-weight:600}
-  .field input[type="text"],
-  .field input[type="tel"]{
-    width:100%;padding:14px 16px;
-    background:rgba(11,13,23,.7);
-    border:1.5px solid var(--line);
-    border-radius:14px;color:var(--txt);
-    font-size:16px;outline:none;transition:.25s;
-    font-family:inherit;
-  }
-  .field input:focus{
-    border-color:var(--acc);
-    box-shadow:0 0 0 4px rgba(124,92,255,.18);
-    background:rgba(19,22,37,.9);
-  }
+  @keyframes formIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field label{font-size:12px;color:var(--muted);padding-right:4px;font-weight:600}
+  .field input[type=text],.field input[type=tel]{width:100%;padding:12px 15px;
+    background:rgba(11,13,23,.65);border:1.5px solid rgba(255,255,255,.08);
+    border-radius:13px;color:var(--txt);font-size:15px;outline:none;transition:.25s;font-family:inherit}
+  .field input:focus{border-color:var(--acc);box-shadow:0 0 0 4px rgba(124,92,255,.2);background:rgba(19,22,37,.85)}
   .field input::placeholder{color:#5a6185}
-
-  /* صناديق كلمة السر (OTP) */
-  .otp{
-    display:flex;gap:7px;justify-content:center;
-    direction:ltr;padding:2px 0;
-  }
-  .otp input{
-    width:44px;height:56px;text-align:center;
-    font-size:24px;font-weight:bold;
-    background:rgba(11,13,23,.7);
-    border:1.5px solid var(--line);
-    border-radius:13px;color:var(--txt);
-    outline:none;transition:.2s;
-    font-family:'Courier New',monospace;
-    padding:0;caret-color:var(--acc2);
-  }
-  .otp input:focus{
-    border-color:var(--acc);
-    box-shadow:0 0 0 4px rgba(124,92,255,.22);
-    transform:translateY(-3px);
-    background:rgba(19,22,37,.95);
-  }
-  .otp input.filled{
-    border-color:var(--acc2);
-    background:rgba(0,224,198,.08);
-    color:var(--acc2);
-  }
-  @media(max-width:380px){
-    .otp{gap:5px}
-    .otp input{width:38px;height:52px;font-size:21px;border-radius:11px}
-  }
-
-  .auth-btn{
-    position:relative;overflow:hidden;
-    width:100%;padding:16px;
-    background:linear-gradient(120deg,var(--acc),#9d7cff,var(--acc));
-    background-size:200% 100%;
-    border:none;border-radius:14px;
-    color:#fff;font-size:16px;font-weight:bold;
-    cursor:pointer;transition:.25s;
-    margin-top:6px;font-family:inherit;
-    animation:gradShift 3s linear infinite;
-    box-shadow:0 10px 25px rgba(124,92,255,.3);
-  }
+  .otp{display:flex;gap:6px;justify-content:center;direction:ltr;padding:2px 0}
+  .otp input{width:42px;height:52px;text-align:center;font-size:26px;font-weight:bold;
+    background:rgba(11,13,23,.65);border:1.5px solid rgba(255,255,255,.08);
+    border-radius:12px;color:var(--txt);outline:none;transition:.2s;
+    font-family:'Courier New',monospace;padding:0;caret-color:var(--acc2);
+    -webkit-text-security:disc;text-security:disc;}
+  .otp input:focus{border-color:var(--acc);box-shadow:0 0 0 4px rgba(124,92,255,.22);transform:translateY(-3px);background:rgba(19,22,37,.9)}
+  .otp input.filled{border-color:var(--acc2);background:rgba(0,224,198,.1);color:var(--acc2)}
+  @media(max-width:360px){.otp{gap:4px}.otp input{width:36px;height:48px;font-size:22px}}
+  .auth-btn{position:relative;overflow:hidden;width:100%;padding:14px;
+    background:linear-gradient(120deg,var(--acc),#9d7cff,var(--acc));background-size:200% 100%;
+    border:none;border-radius:13px;color:#fff;font-size:15px;font-weight:bold;
+    cursor:pointer;transition:.25s;margin-top:4px;font-family:inherit;
+    animation:gradShift 3s linear infinite;box-shadow:0 10px 25px rgba(124,92,255,.35)}
   .auth-btn:active{transform:scale(.97)}
-  .auth-btn::after{
-    content:'';position:absolute;top:0;left:-100%;
-    width:50%;height:100%;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
-    animation:shine 3s infinite;
-  }
-  @keyframes shine{
-    0%{left:-100%}
-    60%{left:200%}
-    100%{left:200%}
-  }
-
-  .auth-msg{
-    text-align:center;font-size:13px;min-height:20px;
-    transition:.2s;padding:0 4px;
-  }
+  .auth-btn::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);animation:shine 3s infinite}
+  @keyframes shine{0%{left:-100%}60%{left:200%}100%{left:200%}}
+  .auth-msg{text-align:center;font-size:12px;min-height:16px;padding:0 4px}
   .auth-msg.err{color:var(--danger);animation:shake .4s}
   .auth-msg.ok{color:var(--ok)}
-  @keyframes shake{
-    0%,100%{transform:translateX(0)}
-    25%{transform:translateX(-6px)}
-    75%{transform:translateX(6px)}
-  }
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .auth-switch{text-align:center;font-size:12.5px;color:var(--muted);margin-top:2px}
+  .auth-switch a{color:var(--acc2);cursor:pointer;font-weight:bold;text-decoration:underline;text-underline-offset:3px}
 
-  .auth-switch{
-    text-align:center;font-size:13.5px;color:var(--muted);margin-top:4px;
-  }
-  .auth-switch a{
-    color:var(--acc2);cursor:pointer;font-weight:bold;
-    text-decoration:underline;text-underline-offset:3px;transition:.2s;
-  }
-  .auth-switch a:hover{color:var(--acc)}
-  .auth-switch a:active{opacity:.7}
-
-  /* ============================================================
-     التطبيق من الداخل
-     ============================================================ */
-  #app{display:none;min-height:100vh;flex-direction:column}
-  header{
-    background:rgba(19,22,37,.92);backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    border-bottom:1px solid var(--line);
-    padding:10px 14px;display:flex;align-items:center;justify-content:space-between;
-    position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:8px;
-  }
-  .logo{
-    font-size:18px;font-weight:bold;
-    background:linear-gradient(90deg,var(--acc),var(--acc2));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .user-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px}
-  .chip{
-    background:var(--bg2);border:1px solid var(--line);
-    border-radius:20px;padding:5px 10px;font-size:12px;
-    display:flex;align-items:center;gap:5px;
-  }
+  /* ============ التطبيق ============ */
+  #app{display:none;height:100dvh;flex-direction:column;overflow:hidden}
+  header{background:rgba(19,22,37,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top));
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;flex-shrink:0}
+  .logo{font-size:16px;font-weight:bold;
+    background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .user-bar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11px}
+  .chip{background:var(--bg2);border:1px solid var(--line);border-radius:20px;
+    padding:4px 9px;font-size:11px;display:flex;align-items:center;gap:4px}
   .chip b{color:var(--gold)}
-  .avatar{
-    width:32px;height:32px;border-radius:50%;
-    background:linear-gradient(135deg,var(--acc),var(--acc2));
-    display:flex;align-items:center;justify-content:center;
-    font-weight:bold;font-size:13px;flex-shrink:0;
-  }
-  .logout{
-    background:transparent;border:1px solid var(--danger);
-    color:var(--danger);border-radius:9px;
-    padding:5px 10px;cursor:pointer;font-size:12px;transition:.2s;
-    font-family:inherit;
-  }
-  .logout:hover{background:var(--danger);color:#fff}
+  .avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));
+    display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;
+    flex-shrink:0;overflow:hidden;background-size:cover;background-position:center;color:#fff;cursor:pointer}
+  .logout{background:transparent;border:1px solid var(--danger);color:var(--danger);
+    border-radius:8px;padding:4px 9px;cursor:pointer;font-size:11px;transition:.2s;font-family:inherit}
 
-  nav{
-    display:flex;gap:5px;padding:10px 12px;
-    overflow-x:auto;border-bottom:1px solid var(--line);
-    background:rgba(11,13,23,.6);
-    scrollbar-width:none;
-  }
+  nav{display:flex;gap:4px;padding:8px 10px;overflow-x:auto;border-bottom:1px solid var(--line);
+    background:rgba(11,13,23,.6);scrollbar-width:none;flex-shrink:0}
   nav::-webkit-scrollbar{display:none}
-  nav button{
-    background:transparent;border:1px solid var(--line);
-    color:var(--muted);padding:8px 14px;border-radius:30px;
-    cursor:pointer;font-size:13px;white-space:nowrap;transition:.2s;
-    font-family:inherit;
-  }
-  nav button:hover{color:var(--txt);border-color:var(--acc)}
-  nav button.active{
-    background:linear-gradient(90deg,var(--acc),#9d7cff);
-    color:#fff;border-color:transparent;font-weight:bold;
-  }
+  nav button{background:transparent;border:1px solid var(--line);color:var(--muted);
+    padding:7px 12px;border-radius:30px;cursor:pointer;font-size:12px;white-space:nowrap;
+    transition:.2s;font-family:inherit}
+  nav button.active{background:linear-gradient(90deg,var(--acc),#9d7cff);color:#fff;
+    border-color:transparent;font-weight:bold}
 
-  main{flex:1;padding:18px 14px;max-width:1100px;margin:0 auto;width:100%}
+  main{flex:1;padding:12px 10px;padding-bottom:calc(12px + env(safe-area-inset-bottom));
+    max-width:1100px;margin:0 auto;width:100%;overflow-y:auto;-webkit-overflow-scrolling:touch}
   .page{display:none;animation:fade .3s ease}
   .page.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px}
-  @media(min-width:600px){.grid{grid-template-columns:repeat(4,1fr)}}
-  .card{
-    background:var(--card);border:1px solid var(--line);
-    border-radius:16px;padding:16px;transition:.2s;
-  }
-  .card:hover{border-color:var(--acc);transform:translateY(-3px)}
-  .card h3{font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:normal}
-  .card .big{
-    font-size:26px;font-weight:bold;
-    background:linear-gradient(90deg,var(--acc),var(--acc2));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .card .sub{font-size:11px;color:var(--muted);margin-top:5px}
-
-  h2.sec{font-size:17px;margin:20px 0 12px;display:flex;align-items:center;gap:8px}
-  h2.sec::before{
-    content:'';width:4px;height:20px;
-    background:linear-gradient(var(--acc),var(--acc2));border-radius:3px;
-  }
-
-  /* الشات */
-  #chatBox{
-    background:var(--card);border:1px solid var(--line);
-    border-radius:16px;overflow:hidden;
-    display:flex;flex-direction:column;height:60vh;min-height:400px;
-  }
-  #messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
-  #messages::-webkit-scrollbar{width:5px}
-  #messages::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
-  .msg{display:flex;gap:8px;max-width:85%}
-  .msg.me{align-self:flex-end;flex-direction:row-reverse}
-  .msg .av{
-    width:32px;height:32px;border-radius:50%;
+  /* شريط الأصدقاء */
+  .friends-bar{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px;
+    scrollbar-width:none;margin-bottom:4px}
+  .friends-bar::-webkit-scrollbar{display:none}
+  .friend{flex-shrink:0;text-align:center;cursor:pointer;width:60px;transition:.2s}
+  .friend:active{transform:scale(.94)}
+  .friend .fav{width:52px;height:52px;border-radius:50%;margin:0 auto 4px;
     background:linear-gradient(135deg,var(--acc),var(--acc2));
     display:flex;align-items:center;justify-content:center;
-    font-size:12px;font-weight:bold;flex-shrink:0;
-  }
-  .msg .bub{
-    background:var(--bg2);border:1px solid var(--line);
-    padding:9px 13px;border-radius:13px;
-    font-size:14px;line-height:1.5;word-break:break-word;
-  }
-  .msg.me .bub{
-    background:linear-gradient(135deg,rgba(124,92,255,.25),rgba(0,224,198,.15));
-    border-color:var(--acc);
-  }
-  .msg .name{font-size:10.5px;color:var(--acc2);margin-bottom:3px;font-weight:bold}
-  .chat-input{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);background:var(--bg2)}
-  .chat-input input{
-    flex:1;background:var(--card);border:1px solid var(--line);
-    border-radius:12px;padding:11px 14px;color:var(--txt);
-    outline:none;font-size:14px;font-family:inherit;
-  }
-  .chat-input input:focus{border-color:var(--acc)}
-  .chat-input button{
-    background:linear-gradient(90deg,var(--acc),#9d7cff);
-    border:none;color:#fff;padding:0 18px;border-radius:12px;
-    cursor:pointer;font-weight:bold;font-size:13px;font-family:inherit;
-  }
+    font-weight:bold;font-size:20px;color:#fff;overflow:hidden;
+    background-size:cover;background-position:center;
+    border:2px solid transparent;position:relative}
+  .friend .fav.online{border-color:var(--ok);box-shadow:0 0 10px rgba(38,208,124,.5)}
+  .friend .fnm{font-size:10px;color:var(--muted);max-width:60px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .friend.me .fav{border-color:var(--acc)}
+  .friend.me .fnm{color:var(--acc2);font-weight:bold}
 
-  /* الألعاب */
-  .games-grid{display:grid;grid-template-columns:1fr;gap:14px}
-  @media(min-width:600px){.games-grid{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}}
-  .game-card{
-    background:var(--card);border:1px solid var(--line);
-    border-radius:16px;padding:20px;text-align:center;transition:.2s;
-  }
-  .game-card:hover{border-color:var(--acc);transform:translateY(-3px)}
-  .game-card h3{font-size:16px;margin-bottom:8px;color:var(--txt)}
-  .game-card p{font-size:13px;color:var(--muted);margin-bottom:14px}
-  .btn{
-    background:linear-gradient(90deg,var(--acc),#9d7cff);
-    border:none;color:#fff;padding:11px 20px;border-radius:12px;
-    cursor:pointer;font-size:14px;font-weight:bold;transition:.2s;
-    font-family:inherit;
-  }
-  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(124,92,255,.35)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;transition:.2s}
+  .card h3{font-size:10.5px;color:var(--muted);margin-bottom:5px;font-weight:normal}
+  .card .big{font-size:22px;font-weight:bold;
+    background:linear-gradient(90deg,var(--acc),var(--acc2));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .card .sub{font-size:9.5px;color:var(--muted);margin-top:3px}
+
+  h2.sec{font-size:15px;margin:14px 0 10px;display:flex;align-items:center;gap:6px}
+  h2.sec::before{content:'';width:3px;height:17px;
+    background:linear-gradient(var(--acc),var(--acc2));border-radius:3px}
+
+  #chatBox{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;display:flex;flex-direction:column;height:58vh;min-height:360px}
+  #messages{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+  #messages::-webkit-scrollbar{width:4px}
+  #messages::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
+  .msg{display:flex;gap:6px;max-width:85%}
+  .msg.me{align-self:flex-end;flex-direction:row-reverse}
+  .msg .av{width:28px;height:28px;border-radius:50%;
+    background:linear-gradient(135deg,var(--acc),var(--acc2));
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:bold;flex-shrink:0;overflow:hidden;background-size:cover;background-position:center;color:#fff}
+  .msg .bub{background:var(--bg2);border:1px solid var(--line);
+    padding:7px 11px;border-radius:12px;font-size:13px;line-height:1.45;word-break:break-word}
+  .msg.me .bub{background:linear-gradient(135deg,rgba(124,92,255,.25),rgba(0,224,198,.15));border-color:var(--acc)}
+  .msg .name{font-size:10px;color:var(--acc2);margin-bottom:2px;font-weight:bold}
+  .chat-input{display:flex;gap:6px;padding:10px;border-top:1px solid var(--line);background:var(--bg2)}
+  .chat-input input{flex:1;background:var(--card);border:1px solid var(--line);
+    border-radius:11px;padding:10px 13px;color:var(--txt);outline:none;font-size:13px;font-family:inherit}
+  .chat-input button{background:linear-gradient(90deg,var(--acc),#9d7cff);
+    border:none;color:#fff;padding:0 16px;border-radius:11px;cursor:pointer;
+    font-weight:bold;font-size:12px;font-family:inherit}
+
+  .games-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  @media(min-width:600px){.games-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}}
+  .game-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:14px 10px;text-align:center;transition:.2s;cursor:pointer;position:relative;overflow:hidden}
+  .game-card:active{transform:scale(.96)}
+  .game-card .gi{font-size:26px;margin-bottom:6px;display:block}
+  .game-card h4{font-size:12px;color:var(--txt);margin-bottom:3px;font-weight:600}
+  .game-card p{font-size:10px;color:var(--muted);line-height:1.3}
+  .game-card.coming{opacity:.5;cursor:not-allowed}
+  .game-card.coming::after{content:'قريباً';position:absolute;top:6px;left:6px;
+    background:var(--gold);color:#1a1a1a;font-size:8.5px;padding:1px 5px;border-radius:6px;font-weight:bold}
+
+  .btn{background:linear-gradient(90deg,var(--acc),#9d7cff);border:none;color:#fff;
+    padding:10px 18px;border-radius:11px;cursor:pointer;font-size:13px;font-weight:bold;
+    transition:.2s;font-family:inherit}
   .btn:active{transform:scale(.97)}
   .btn.ghost{background:transparent;border:1px solid var(--acc);color:var(--acc)}
   .btn.gold{background:linear-gradient(90deg,var(--gold),#ff9f1c);color:#1a1a1a}
+  .btn.sm{padding:7px 13px;font-size:12px;border-radius:9px}
 
-  #xoBoard{display:grid;grid-template-columns:repeat(3,80px);gap:8px;justify-content:center;margin:16px auto}
-  @media(max-width:380px){#xoBoard{grid-template-columns:repeat(3,68px)}.cell{width:68px!important;height:68px!important;font-size:30px!important}}
-  .cell{
-    width:80px;height:80px;background:var(--bg2);border:2px solid var(--line);
-    border-radius:14px;display:flex;align-items:center;justify-content:center;
-    font-size:34px;font-weight:bold;cursor:pointer;transition:.2s;
-  }
-  .cell:hover{border-color:var(--acc)}
+  #xoBoard{display:grid;grid-template-columns:repeat(3,72px);gap:6px;justify-content:center;margin:14px auto}
+  @media(max-width:380px){#xoBoard{grid-template-columns:repeat(3,64px)}.cell{width:64px!important;height:64px!important;font-size:26px!important}}
+  .cell{width:72px;height:72px;background:var(--bg2);border:2px solid var(--line);
+    border-radius:12px;display:flex;align-items:center;justify-content:center;
+    font-size:30px;font-weight:bold;cursor:pointer;transition:.2s;color:var(--acc2)}
   .cell.x{color:var(--acc2)}
   .cell.o{color:var(--gold)}
-  .status{text-align:center;font-size:14px;margin:10px 0;color:var(--muted)}
+  .status{text-align:center;font-size:13px;margin:8px 0;color:var(--muted)}
   .status b{color:var(--gold)}
 
-  .rps-btns{display:flex;gap:10px;justify-content:center;margin:16px 0;flex-wrap:wrap}
-  .rps-btns button{
-    font-size:34px;background:var(--bg2);border:2px solid var(--line);
-    border-radius:16px;width:74px;height:74px;cursor:pointer;transition:.2s;
-  }
-  .rps-btns button:hover{border-color:var(--acc);transform:scale(1.08)}
+  .rps-btns{display:flex;gap:8px;justify-content:center;margin:14px 0;flex-wrap:wrap}
+  .rps-btns button{font-size:30px;background:var(--bg2);border:2px solid var(--line);
+    border-radius:14px;width:66px;height:66px;cursor:pointer;transition:.2s}
   .rps-btns button.picked{border-color:var(--acc2);background:rgba(0,224,198,.15)}
 
-  .lb-row{
-    display:flex;align-items:center;gap:12px;
-    background:var(--card);border:1px solid var(--line);
-    border-radius:14px;padding:12px 14px;margin-bottom:8px;transition:.2s;
-  }
-  .lb-row:hover{border-color:var(--acc)}
-  .lb-row .rank{font-size:18px;font-weight:bold;width:34px;color:var(--muted);flex-shrink:0}
+  .lb-row{display:flex;align-items:center;gap:10px;background:var(--card);
+    border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:6px}
+  .lb-row .rank{font-size:16px;font-weight:bold;width:30px;color:var(--muted);flex-shrink:0}
   .lb-row.top1{border-color:var(--gold);background:linear-gradient(90deg,rgba(255,201,60,.12),transparent)}
   .lb-row.top1 .rank{color:var(--gold)}
   .lb-row.top2 .rank{color:#c0c8e0}
   .lb-row.top3 .rank{color:#e08a3c}
-  .lb-row .av{
-    width:36px;height:36px;border-radius:50%;
+  .lb-row .av{width:32px;height:32px;border-radius:50%;
     background:linear-gradient(135deg,var(--acc),var(--acc2));
     display:flex;align-items:center;justify-content:center;
-    font-weight:bold;flex-shrink:0;font-size:14px;
-  }
-  .lb-row .nm{flex:1;font-size:14px;font-weight:600}
-  .lb-row .pts{font-size:13px;font-weight:bold;color:var(--gold);flex-shrink:0}
+    font-weight:bold;flex-shrink:0;font-size:12px;overflow:hidden;background-size:cover;background-position:center;color:#fff}
+  .lb-row .nm{flex:1;font-size:13px;font-weight:600}
+  .lb-row .pts{font-size:12px;font-weight:bold;color:var(--gold);flex-shrink:0}
 
-  .mem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-  @media(min-width:600px){.mem-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}}
-  .mem{
-    background:var(--card);border:1px solid var(--line);
-    border-radius:16px;padding:16px;text-align:center;position:relative;
-  }
-  .mem .dot{
-    position:absolute;top:10px;left:10px;width:9px;height:9px;
-    border-radius:50%;background:#555;
-  }
+  .mem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media(min-width:600px){.mem-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
+  .mem{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:12px;text-align:center;position:relative;cursor:pointer;transition:.2s}
+  .mem:active{transform:scale(.97)}
+  .mem .dot{position:absolute;top:8px;left:8px;width:8px;height:8px;border-radius:50%;background:#555}
   .mem .dot.on{background:var(--ok);box-shadow:0 0 8px var(--ok)}
-  .mem .av{
-    width:50px;height:50px;border-radius:50%;
+  .mem .av{width:48px;height:48px;border-radius:50%;
     background:linear-gradient(135deg,var(--acc),var(--acc2));
     display:flex;align-items:center;justify-content:center;
-    font-size:20px;font-weight:bold;margin:0 auto 8px;
-  }
-  .mem .nm{font-size:14px;font-weight:600;margin-bottom:3px}
-  .mem .sc{font-size:11px;color:var(--gold)}
+    font-size:18px;font-weight:bold;margin:0 auto 6px;overflow:hidden;background-size:cover;background-position:center;color:#fff}
+  .mem .nm{font-size:12.5px;font-weight:600;margin-bottom:2px}
+  .mem .sc{font-size:10px;color:var(--gold)}
 
-  .toast{
-    position:fixed;bottom:20px;left:50%;
-    transform:translateX(-50%) translateY(100px);
-    background:var(--card);border:1px solid var(--acc);
-    color:var(--txt);padding:12px 20px;border-radius:14px;
-    font-size:13px;transition:.3s;z-index:9999;
-    box-shadow:0 10px 30px rgba(0,0,0,.5);
-    max-width:90vw;text-align:center;
-  }
+  .profile-card{background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:20px;text-align:center;margin-bottom:14px}
+  .profile-av{width:100px;height:100px;border-radius:50%;margin:0 auto 12px;
+    background:linear-gradient(135deg,var(--acc),var(--acc2));
+    display:flex;align-items:center;justify-content:center;
+    font-size:40px;font-weight:bold;color:#fff;overflow:hidden;
+    background-size:cover;background-position:center;position:relative;cursor:pointer;
+    border:3px solid var(--line)}
+  .profile-av .edit{position:absolute;bottom:0;right:0;background:var(--acc);
+    width:30px;height:30px;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;font-size:14px;border:2px solid var(--bg)}
+
+  .field2{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;text-align:right}
+  .field2 label{font-size:12px;color:var(--muted);font-weight:600}
+  .field2 input,.field2 textarea{width:100%;padding:11px 14px;background:var(--bg2);
+    border:1.5px solid var(--line);border-radius:12px;color:var(--txt);
+    font-size:14px;outline:none;transition:.2s;font-family:inherit}
+  .field2 input:focus,.field2 textarea:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(124,92,255,.18)}
+  .field2 textarea{resize:none;min-height:80px;line-height:1.5}
+
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);
+    z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal.show{display:flex;animation:fade .3s}
+  .modal-box{background:var(--card);border:1px solid var(--line);border-radius:20px;
+    padding:22px;max-width:360px;width:100%;text-align:center;
+    animation:cardIn .4s cubic-bezier(.2,.9,.3,1.3);max-height:85dvh;overflow-y:auto}
+  .modal-box .profile-av{width:90px;height:90px;font-size:36px;cursor:default}
+  .modal-box .profile-name{font-size:18px;font-weight:bold;margin-bottom:4px}
+  .modal-box .profile-phone{font-size:12px;color:var(--muted);margin-bottom:12px}
+  .modal-box .profile-bio{font-size:13px;color:var(--txt);line-height:1.6;
+    background:var(--bg2);padding:12px;border-radius:12px;
+    border:1px solid var(--line);margin-bottom:12px;min-height:60px;text-align:right}
+
+  .toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));left:50%;
+    transform:translateX(-50%) translateY(100px);background:var(--card);
+    border:1px solid var(--acc);color:var(--txt);padding:11px 18px;border-radius:12px;
+    font-size:12.5px;transition:.3s;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.5);
+    max-width:90vw;text-align:center}
   .toast.show{transform:translateX(-50%) translateY(0)}
+
+  .dice-area{display:flex;gap:20px;justify-content:center;align-items:center;margin:20px 0}
+  .die{width:80px;height:80px;background:#fff;border-radius:16px;color:#111;
+    display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:bold;
+    box-shadow:0 8px 20px rgba(0,0,0,.4);transition:.4s}
+  .die.rolling{animation:roll .6s}
+  @keyframes roll{0%,100%{transform:rotate(0) scale(1)}50%{transform:rotate(360deg) scale(1.15)}}
+  .coin{width:110px;height:110px;border-radius:50%;
+    background:linear-gradient(135deg,#ffd700,#ff9f1c);
+    display:flex;align-items:center;justify-content:center;
+    font-size:50px;font-weight:bold;color:#8a5a00;margin:20px auto;
+    box-shadow:0 10px 30px rgba(255,200,0,.4);transition:.6s}
+  .coin.flipping{animation:flip .6s}
+  @keyframes flip{0%{transform:rotateY(0)}100%{transform:rotateY(720deg)}}
+  .reaction-box{width:100%;height:200px;border-radius:18px;display:flex;
+    align-items:center;justify-content:center;font-size:20px;font-weight:bold;
+    cursor:pointer;user-select:none;transition:.15s;margin:14px 0;color:#fff}
+  .reaction-box.wait{background:#c0392b}
+  .reaction-box.go{background:#26d07c}
+  .reaction-box.done{background:var(--acc)}
+
+  .mem-board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:320px;margin:14px auto}
+  .mem-card{aspect-ratio:1;background:var(--bg2);border:2px solid var(--line);
+    border-radius:12px;display:flex;align-items:center;justify-content:center;
+    font-size:28px;cursor:pointer;transition:.3s;user-select:none}
+  .mem-card.flipped{background:linear-gradient(135deg,rgba(124,92,255,.3),rgba(0,224,198,.2));border-color:var(--acc)}
+  .mem-card.matched{background:rgba(38,208,124,.2);border-color:var(--ok);opacity:.6}
 </style>
 </head>
 <body>
 
 <!-- ============ شاشة الدخول ============ -->
 <div id="auth">
-  <div class="auth-bg">
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-  </div>
-
+  <div class="auth-bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
   <div class="auth-card">
     <div class="brand">
       <div class="brand-icon">🔥</div>
@@ -413,39 +311,25 @@
       <p id="authSub">انشئ حسابك وابدأ اللعب مع أصحابك</p>
     </div>
 
-    <!-- ===== إنشاء حساب ===== -->
     <form class="auth-form active" id="registerForm" onsubmit="event.preventDefault();doRegister()">
-      <div class="field">
-        <label>الاسم</label>
-        <input type="text" id="regName" placeholder="اسمك اللي هيظهر للشلة" maxlength="20" autocomplete="name" />
-      </div>
-      <div class="field">
-        <label>رقم التليفون</label>
-        <input type="tel" inputmode="numeric" id="regPhone" placeholder="01xxxxxxxxx" maxlength="11" autocomplete="tel" />
-      </div>
-      <div class="field">
-        <label>كلمة السر (6 أرقام)</label>
-        <div class="otp" id="regPass"></div>
-      </div>
-      <div class="field">
-        <label>تأكيد كلمة السر</label>
-        <div class="otp" id="regPass2"></div>
-      </div>
+      <div class="field"><label>الاسم</label>
+        <input type="text" id="regName" placeholder="اسمك اللي هيظهر للشلة" maxlength="20" /></div>
+      <div class="field"><label>رقم التليفون</label>
+        <input type="tel" inputmode="numeric" id="regPhone" placeholder="01xxxxxxxxx" maxlength="11" /></div>
+      <div class="field"><label>كلمة السر (6 أرقام)</label>
+        <div class="otp" id="regPass"></div></div>
+      <div class="field"><label>تأكيد كلمة السر</label>
+        <div class="otp" id="regPass2"></div></div>
       <button class="auth-btn" type="submit">🚀 إنشاء الحساب</button>
       <div class="auth-msg" id="regMsg"></div>
       <div class="auth-switch">لديك حساب بالفعل؟ <a onclick="switchAuth('login')">تسجيل الدخول</a></div>
     </form>
 
-    <!-- ===== تسجيل دخول ===== -->
     <form class="auth-form" id="loginForm" onsubmit="event.preventDefault();doLogin()">
-      <div class="field">
-        <label>رقم التليفون</label>
-        <input type="tel" inputmode="numeric" id="logPhone" placeholder="01xxxxxxxxx" maxlength="11" autocomplete="tel" />
-      </div>
-      <div class="field">
-        <label>كلمة السر</label>
-        <div class="otp" id="logPass"></div>
-      </div>
+      <div class="field"><label>رقم التليفون</label>
+        <input type="tel" inputmode="numeric" id="logPhone" placeholder="01xxxxxxxxx" maxlength="11" /></div>
+      <div class="field"><label>كلمة السر</label>
+        <div class="otp" id="logPass"></div></div>
       <button class="auth-btn" type="submit">🔓 دخول</button>
       <div class="auth-msg" id="logMsg"></div>
       <div class="auth-switch">ليس لديك حساب؟ <a onclick="switchAuth('register')">إنشاء حساب</a></div>
@@ -460,31 +344,33 @@
     <div class="user-bar">
       <div class="chip">💰 <b id="hPoints">0</b></div>
       <div class="chip">💵 <b id="hMoney">0</b> ج</div>
-      <div class="avatar" id="hAvatar">؟</div>
+      <div class="avatar" id="hAvatar" onclick="goProfile()">؟</div>
       <button class="logout" onclick="logout()">خروج</button>
     </div>
   </header>
 
   <nav>
-    <button class="active" data-page="home">🏠 الرئيسية</button>
-    <button data-page="chat">💬 الشات</button>
-    <button data-page="games">🎮 الألعاب</button>
-    <button data-page="board">🏆 الصدارة</button>
-    <button data-page="members">👥 الأعضاء</button>
+    <button class="active" data-page="home">🏠</button>
+    <button data-page="chat">💬 شات</button>
+    <button data-page="games">🎮 ألعاب</button>
+    <button data-page="board">🏆 صدارة</button>
+    <button data-page="profile">👤 ملفي</button>
   </nav>
 
   <main>
     <section class="page active" id="page-home">
+      <h2 class="sec">أصحابك على المنصة</h2>
+      <div class="friends-bar" id="friendsBar"></div>
+
       <div class="grid">
         <div class="card"><h3>نقاطك</h3><div class="big" id="cPoints">0</div><div class="sub">كل فوز = 10</div></div>
-        <div class="card"><h3>محفظتك</h3><div class="big" id="cMoney">0</div><div class="sub">1 نقطة = 1 جنيه</div></div>
+        <div class="card"><h3>محفظتك</h3><div class="big" id="cMoney">0</div><div class="sub">1 نقطة = 1 ج</div></div>
         <div class="card"><h3>انتصاراتك</h3><div class="big" id="cWins">0</div><div class="sub">ماتشات كسبتها</div></div>
         <div class="card"><h3>أونلاين</h3><div class="big" id="cOnline">0</div><div class="sub">من أصحابك</div></div>
       </div>
-      <h2 class="sec">مين موجود دلوقتي</h2>
-      <div class="mem-grid" id="onlineGrid"></div>
+
       <h2 class="sec">أحدث الرسائل</h2>
-      <div id="recentMsgs" style="color:var(--muted);font-size:14px"></div>
+      <div id="recentMsgs" style="color:var(--muted);font-size:13px"></div>
     </section>
 
     <section class="page" id="page-chat">
@@ -499,25 +385,9 @@
     </section>
 
     <section class="page" id="page-games">
-      <h2 class="sec">اختار لعبة</h2>
-      <div class="games-grid">
-        <div class="game-card">
-          <h3>❌⭕ إكس-أو أونلاين</h3>
-          <p>العب ضد صاحبك في الوقت الحقيقي. الفايز +10 نقاط = +10 جنيه</p>
-          <button class="btn" onclick="openXO()">ابدأ اللعبة</button>
-        </div>
-        <div class="game-card">
-          <h3>✊✋✌️ حجرة ورقة مقص</h3>
-          <p>اختار، استنى صاحبك يختار، والفايز ياخد النقاط</p>
-          <button class="btn" onclick="openRPS()">ابدأ اللعبة</button>
-        </div>
-        <div class="game-card">
-          <h3>🎯 تخمين الرقم</h3>
-          <p>خمّن رقم من 1 لـ 100 في أقل محاولات. كل ما تكون أسرع، نقاط أكتر</p>
-          <button class="btn" onclick="openGuess()">ابدأ اللعبة</button>
-        </div>
-      </div>
-      <div id="gameArea" style="margin-top:18px"></div>
+      <h2 class="sec">🎮 اختار لعبة</h2>
+      <div class="games-grid" id="gamesGrid"></div>
+      <div id="gameArea" style="margin-top:16px"></div>
     </section>
 
     <section class="page" id="page-board">
@@ -525,230 +395,193 @@
       <div id="leaderboard"></div>
     </section>
 
-    <section class="page" id="page-members">
+    <section class="page" id="page-profile">
+      <h2 class="sec">👤 ملفي الشخصي</h2>
+      <div class="profile-card">
+        <div class="profile-av" id="myAv" onclick="document.getElementById('avFile').click()">
+          <div class="edit">📷</div>
+        </div>
+        <input type="file" id="avFile" accept="image/*" style="display:none" onchange="uploadAvatar(event)" />
+        <div class="field2">
+          <label>الاسم</label>
+          <input type="text" id="pName" maxlength="20" />
+        </div>
+        <div class="field2">
+          <label>وصفك الشخصي (اكتب عن نفسك)</label>
+          <textarea id="pBio" maxlength="200" placeholder="اكتب حاجة عن نفسك تخلي أصحابك يعرفوك..."></textarea>
+        </div>
+        <button class="btn" onclick="saveProfile()">💾 احفظ التعديلات</button>
+      </div>
+
       <h2 class="sec">👥 كل الأعضاء</h2>
       <div class="mem-grid" id="allMembers"></div>
     </section>
   </main>
 </div>
 
+<div class="modal" id="friendModal" onclick="if(event.target===this)closeFriend()">
+  <div class="modal-box" id="friendBox"></div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-/* =========================================================
-   البيانات
-   ========================================================= */
-const CH = 'shilla_rt';
-const bus = new BroadcastChannel(CH);
-
+const bus = new BroadcastChannel('shilla_rt');
 const store = {
   get(k, d=null){ try{ const v = localStorage.getItem('shilla_'+k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
   set(k, v){ localStorage.setItem('shilla_'+k, JSON.stringify(v)); }
 };
 
-let me = null;      // رقم التليفون (المعرّف الفريد)
-let myName = null;  // الاسم للعرض
+let me = null;
+let myName = null;
+let currentGame = null;
 
-function nameOf(phone){
-  const u = store.get('users', {});
-  return (u[phone] && u[phone].name) || phone;
-}
+function nameOf(phone){ const u = store.get('users', {}); return (u[phone] && u[phone].name) || phone; }
+function avatarOf(phone){ const u = store.get('users', {}); return (u[phone] && u[phone].avatar) || null; }
 
-function save(key, val, broadcast=true){
-  store.set(key, val);
-  if(broadcast) bus.postMessage({type:'sync'});
-}
-bus.onmessage = (e) => { if(e.data.type === 'sync') refreshUI(); };
+function save(key, val, broadcast=true){ store.set(key, val); if(broadcast) bus.postMessage({type:'sync'}); }
+bus.onmessage = e => { if(e.data.type==='sync') refreshUI(); };
 window.addEventListener('storage', () => refreshUI());
 
-/* =========================================================
-   صناديق الـOTP (6 أرقام)
-   ========================================================= */
-function buildOTP(container){
-  container.innerHTML = '';
+/* ================= OTP (مخفي على أندرويد) ================= */
+function buildOTP(c){
+  c.innerHTML = '';
   for(let i=0;i<6;i++){
     const inp = document.createElement('input');
-    inp.type = 'tel';
+    /* السر هنا: type=text + webkitTextSecurity عشان يخفيه على أندرويد فوراً */
+    inp.type = 'text';
+    inp.style.webkitTextSecurity = 'disc';
     inp.setAttribute('inputmode','numeric');
     inp.setAttribute('maxlength','1');
-    inp.setAttribute('pattern','[0-9]*');
+    inp.setAttribute('autocomplete','off');
+    inp.setAttribute('autocorrect','off');
+    inp.setAttribute('spellcheck','false');
+
     inp.addEventListener('input', e => {
       const v = e.target.value.replace(/\D/g,'');
       e.target.value = v.slice(0,1);
       e.target.classList.toggle('filled', !!e.target.value);
-      if(e.target.value && e.target.nextElementSibling){
-        e.target.nextElementSibling.focus();
-      }
+      if(e.target.value && e.target.nextElementSibling) e.target.nextElementSibling.focus();
     });
     inp.addEventListener('keydown', e => {
-      if(e.key === 'Backspace' && !e.target.value && e.target.previousElementSibling){
+      if(e.key==='Backspace' && !e.target.value && e.target.previousElementSibling){
         e.target.previousElementSibling.focus();
-        e.target.previousElementSibling.value = '';
+        e.target.previousElementSibling.value='';
         e.target.previousElementSibling.classList.remove('filled');
       }
-      if(e.key === 'ArrowLeft' && e.target.nextElementSibling) e.target.nextElementSibling.focus();
-      if(e.key === 'ArrowRight' && e.target.previousElementSibling) e.target.previousElementSibling.focus();
     });
     inp.addEventListener('paste', e => {
       e.preventDefault();
       const data = (e.clipboardData.getData('text')||'').replace(/\D/g,'').slice(0,6);
-      const inputs = [...container.querySelectorAll('input')];
+      const inputs = [...c.querySelectorAll('input')];
       const start = inputs.indexOf(e.target);
-      data.split('').forEach((d, i) => {
-        if(inputs[start+i]){
-          inputs[start+i].value = d;
-          inputs[start+i].classList.add('filled');
-        }
-      });
-      const last = Math.min(start + data.length, inputs.length - 1);
-      inputs[last].focus();
+      data.split('').forEach((d,i) => { if(inputs[start+i]){ inputs[start+i].value=d; inputs[start+i].classList.add('filled'); } });
+      inputs[Math.min(start+data.length, inputs.length-1)].focus();
     });
     inp.addEventListener('focus', e => e.target.select());
-    container.appendChild(inp);
+    c.appendChild(inp);
   }
 }
+function otpValue(c){ return [...c.querySelectorAll('input')].map(i => i.value).join(''); }
+function clearOTP(c){ c.querySelectorAll('input').forEach(i => { i.value=''; i.classList.remove('filled'); }); }
+function focusOTP(c){ c.querySelector('input')?.focus(); }
 
-function otpValue(container){
-  return [...container.querySelectorAll('input')].map(i => i.value).join('');
-}
-function clearOTP(container){
-  container.querySelectorAll('input').forEach(i => {
-    i.value = ''; i.classList.remove('filled');
-  });
-}
-function focusOTP(container){
-  container.querySelector('input')?.focus();
-}
-
-/* بناء الصناديق مرة واحدة عند التحميل */
 buildOTP(document.getElementById('regPass'));
 buildOTP(document.getElementById('regPass2'));
 buildOTP(document.getElementById('logPass'));
 
-/* =========================================================
-   التنقل بين الشاشتين
-   ========================================================= */
-function switchAuth(which){
+/* ================= تبديل ================= */
+function switchAuth(w){
   document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-  document.getElementById(which === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
-  document.getElementById('authSub').textContent = which === 'login'
-    ? 'أهلاً بيك تاني 👋'
-    : 'انشئ حسابك وابدأ اللعب مع أصحابك';
-  document.getElementById('regMsg').textContent = '';
-  document.getElementById('regMsg').className = 'auth-msg';
-  document.getElementById('logMsg').textContent = '';
-  document.getElementById('logMsg').className = 'auth-msg';
+  document.getElementById(w==='login'?'loginForm':'registerForm').classList.add('active');
+  document.getElementById('authSub').textContent = w==='login' ? 'أهلاً بيك تاني 👋' : 'انشئ حسابك وابدأ اللعب';
+  ['regMsg','logMsg'].forEach(id => { const el=document.getElementById(id); el.textContent=''; el.className='auth-msg'; });
+}
+function showAuthMsg(el, t, type='err'){
+  el.textContent = t; el.className = 'auth-msg ' + type;
+  if(type==='err'){ el.style.animation='none'; void el.offsetWidth; el.style.animation=''; }
 }
 
-function showAuthMsg(el, text, type='err'){
-  el.textContent = text;
-  el.className = 'auth-msg ' + type;
-  if(type === 'err'){
-    el.style.animation = 'none';
-    void el.offsetWidth;
-    el.style.animation = '';
-  }
-}
-
-/* =========================================================
-   إنشاء حساب
-   ========================================================= */
+/* ================= تسجيل ================= */
 function doRegister(){
-  const name   = document.getElementById('regName').value.trim();
-  const phone  = document.getElementById('regPhone').value.trim();
-  const p1     = otpValue(document.getElementById('regPass'));
-  const p2     = otpValue(document.getElementById('regPass2'));
-  const msg    = document.getElementById('regMsg');
+  const name = document.getElementById('regName').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const p1 = otpValue(document.getElementById('regPass'));
+  const p2 = otpValue(document.getElementById('regPass2'));
+  const msg = document.getElementById('regMsg');
 
-  if(name.length < 2)          return showAuthMsg(msg,'الاسم لازم حرفين على الأقل');
-  if(!/^01\d{9}$/.test(phone)) return showAuthMsg(msg,'رقم التليفون لازم 11 رقم ويبدأ بـ 01');
-  if(p1.length !== 6)          return showAuthMsg(msg,'كلمة السر لازم 6 أرقام بالظبط');
-  if(p1 !== p2){
-    showAuthMsg(msg,'كلمتا السر مش متطابقتين');
-    clearOTP(document.getElementById('regPass2'));
-    focusOTP(document.getElementById('regPass2'));
-    return;
-  }
+  if(name.length < 2) return showAuthMsg(msg, 'الاسم لازم حرفين على الأقل');
+  if(!/^01\d{9}$/.test(phone)) return showAuthMsg(msg, 'رقم التليفون 11 رقم ويبدأ بـ 01');
+  if(p1.length !== 6) return showAuthMsg(msg, 'كلمة السر 6 أرقام');
+  if(p1 !== p2){ showAuthMsg(msg, 'كلمتا السر مش متطابقتين'); clearOTP(document.getElementById('regPass2')); focusOTP(document.getElementById('regPass2')); return; }
 
   const users = store.get('users', {});
-  if(users[phone]) return showAuthMsg(msg,'الرقم ده مسجل قبل كده، جرب تسجيل الدخول');
-
-  users[phone] = { name, pass: p1, points: 0, wins: 0, created: Date.now() };
+  if(users[phone]) return showAuthMsg(msg, 'الرقم ده مسجل قبل كده');
+  users[phone] = { name, pass:p1, points:0, wins:0, bio:'', avatar:null, created:Date.now() };
   save('users', users);
-
-  showAuthMsg(msg, '✅ تم إنشاء الحساب! جاري الدخول...', 'ok');
-  setTimeout(() => {
-    me = phone;
-    myName = name;
-    sessionStorage.setItem('shilla_me', phone);
-    startApp();
-  }, 800);
+  showAuthMsg(msg, '✅ تم!', 'ok');
+  setTimeout(() => { me=phone; myName=name; sessionStorage.setItem('shilla_me',phone); startApp(); }, 700);
 }
 
-/* =========================================================
-   تسجيل دخول
-   ========================================================= */
 function doLogin(){
   const phone = document.getElementById('logPhone').value.trim();
-  const p     = otpValue(document.getElementById('logPass'));
-  const msg   = document.getElementById('logMsg');
-
-  if(!/^01\d{9}$/.test(phone)) return showAuthMsg(msg,'رقم التليفون غلط');
-  if(p.length !== 6)           return showAuthMsg(msg,'كلمة السر لازم 6 أرقام');
-
+  const p = otpValue(document.getElementById('logPass'));
+  const msg = document.getElementById('logMsg');
+  if(!/^01\d{9}$/.test(phone)) return showAuthMsg(msg, 'رقم التليفون غلط');
+  if(p.length !== 6) return showAuthMsg(msg, 'كلمة السر 6 أرقام');
   const users = store.get('users', {});
-  if(!users[phone])            return showAuthMsg(msg,'مفيش حساب بالرقم ده');
-  if(users[phone].pass !== p){
-    clearOTP(document.getElementById('logPass'));
-    focusOTP(document.getElementById('logPass'));
-    return showAuthMsg(msg,'كلمة السر غلط');
-  }
-
-  me = phone;
-  myName = users[phone].name;
+  if(!users[phone]) return showAuthMsg(msg, 'مفيش حساب بالرقم ده');
+  if(users[phone].pass !== p){ clearOTP(document.getElementById('logPass')); focusOTP(document.getElementById('logPass')); return showAuthMsg(msg, 'كلمة السر غلط'); }
+  me = phone; myName = users[phone].name;
   sessionStorage.setItem('shilla_me', phone);
   startApp();
 }
 
 function logout(){
-  if(me){
-    const on = store.get('online', {});
-    delete on[me];
-    save('online', on);
-  }
+  if(me){ const on = store.get('online',{}); delete on[me]; save('online', on); }
   sessionStorage.removeItem('shilla_me');
   location.reload();
 }
 
-/* =========================================================
-   تشغيل التطبيق
-   ========================================================= */
+/* ================= تشغيل ================= */
 function startApp(){
   document.getElementById('auth').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
-  document.getElementById('hAvatar').textContent = (myName||'؟').charAt(0).toUpperCase();
-
-  setOnline();
-  setInterval(setOnline, 5000);
-
+  updateMyAvatar();
+  setOnline(); setInterval(setOnline, 5000);
+  buildGamesGrid();
   refreshUI();
 }
 
-function setOnline(){
+function updateMyAvatar(){
+  const av = avatarOf(me);
+  const el = document.getElementById('hAvatar');
+  if(av){ el.style.backgroundImage = `url(${av})`; el.textContent=''; }
+  else { el.style.backgroundImage=''; el.textContent = (myName||'؟').charAt(0).toUpperCase(); }
+  const myAv = document.getElementById('myAv');
+  if(myAv){
+    if(av){ myAv.style.backgroundImage = `url(${av})`; myAv.innerHTML = '<div class="edit">📷</div>'; }
+    else { myAv.style.backgroundImage=''; myAv.innerHTML = (myName||'؟').charAt(0).toUpperCase() + '<div class="edit">📷</div>'; }
+  }
+  const users = store.get('users', {});
+  const pNameEl = document.getElementById('pName');
+  const pBioEl = document.getElementById('pBio');
+  if(pNameEl) pNameEl.value = users[me]?.name || '';
+  if(pBioEl) pBioEl.value = users[me]?.bio || '';
+  }
+  function setOnline(){
   const on = store.get('online', {});
   on[me] = Date.now();
   const now = Date.now();
   for(const k in on) if(now - on[k] > 15000) delete on[k];
   save('online', on, true);
 }
-
 function onlineList(){
   const on = store.get('online', {});
   const now = Date.now();
   return Object.keys(on).filter(k => now - on[k] < 15000);
 }
 
-/* التنقل */
 document.querySelectorAll('nav button').forEach(b => {
   b.addEventListener('click', () => {
     document.querySelectorAll('nav button').forEach(x => x.classList.remove('active'));
@@ -758,30 +591,37 @@ document.querySelectorAll('nav button').forEach(b => {
     refreshUI();
   });
 });
+function goProfile(){
+  document.querySelectorAll('nav button').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+  document.querySelector('nav button[data-page="profile"]').classList.add('active');
+  document.getElementById('page-profile').classList.add('active');
+  updateMyAvatar(); refreshUI();
+}
 
-/* =========================================================
-   الشات
-   ========================================================= */
+/* ================= الشات ================= */
 function sendMsg(){
   const inp = document.getElementById('msgInput');
   const text = inp.value.trim();
   if(!text) return;
   const msgs = store.get('msgs', []);
-  msgs.push({ from: me, text, t: Date.now() });
-  if(msgs.length > 300) msgs.splice(0, msgs.length - 300);
-  save('msgs', msgs);
-  inp.value = '';
-  refreshUI();
+  msgs.push({ from:me, text, t:Date.now() });
+  if(msgs.length > 300) msgs.splice(0, msgs.length-300);
+  save('msgs', msgs); inp.value=''; refreshUI();
 }
+function sendSystem(text){ const msgs = store.get('msgs', []); msgs.push({ from:'system', text, t:Date.now(), sys:true }); save('msgs', msgs); refreshUI(); }
 
 function renderChat(){
   const box = document.getElementById('messages');
   const msgs = store.get('msgs', []);
   box.innerHTML = msgs.map(m => {
+    if(m.sys) return `<div style="text-align:center;font-size:11px;color:var(--gold);padding:4px 0">✨ ${escapeHtml(m.text)}</div>`;
     const nm = nameOf(m.from);
+    const av = avatarOf(m.from);
+    const avHtml = av ? `<div class="av" style="background-image:url(${av})"></div>` : `<div class="av">${escapeHtml(nm.charAt(0).toUpperCase())}</div>`;
     return `
-      <div class="msg ${m.from === me ? 'me' : ''}">
-        <div class="av">${escapeHtml(nm.charAt(0).toUpperCase())}</div>
+      <div class="msg ${m.from===me?'me':''}">
+        ${avHtml}
         <div>
           <div class="name">${escapeHtml(nm)}</div>
           <div class="bub">${escapeHtml(m.text)}</div>
@@ -790,315 +630,613 @@ function renderChat(){
     `;
   }).join('');
   box.scrollTop = box.scrollHeight;
-
-  const recent = msgs.slice(-3).reverse();
+  const recent = msgs.filter(m => !m.sys).slice(-3).reverse();
   document.getElementById('recentMsgs').innerHTML = recent.length
-    ? recent.map(m => `<div style="margin-bottom:8px"><b style="color:var(--acc2)">${escapeHtml(nameOf(m.from))}:</b> ${escapeHtml(m.text)}</div>`).join('')
-    : '<div>لسه مفيش رسائل. ابدأ الكلام 💬</div>';
+    ? recent.map(m => `<div style="margin-bottom:6px"><b style="color:var(--acc2)">${escapeHtml(nameOf(m.from))}:</b> ${escapeHtml(m.text)}</div>`).join('')
+    : '<div>لسه مفيش رسائل 💬</div>';
 }
 
-/* =========================================================
-   المستخدمين والنقاط
-   ========================================================= */
+/* ================= مستخدمين ================= */
 function getUsers(){ return store.get('users', {}); }
+function addPoints(phone, pts){ const u=getUsers(); if(!u[phone])return; u[phone].points=(u[phone].points||0)+pts; save('users',u); }
+function addWin(phone){ const u=getUsers(); if(!u[phone])return; u[phone].wins=(u[phone].wins||0)+1; save('users',u); }
 
-function addPoints(userPhone, pts){
-  const users = getUsers();
-  if(!users[userPhone]) return;
-  users[userPhone].points = (users[userPhone].points || 0) + pts;
-  save('users', users);
-}
-function addWin(userPhone){
-  const users = getUsers();
-  if(!users[userPhone]) return;
-  users[userPhone].wins = (users[userPhone].wins || 0) + 1;
-  save('users', users);
-}
-
-/* =========================================================
-   تحديث الواجهة
-   ========================================================= */
+/* ================= UI ================= */
 function refreshUI(){
   if(!me) return;
   const users = getUsers();
-  const u = users[me] || { points: 0, wins: 0 };
+  const u = users[me] || { points:0, wins:0 };
 
-  document.getElementById('hPoints').textContent = u.points || 0;
-  document.getElementById('hMoney').textContent  = u.points || 0;
-  document.getElementById('cPoints').textContent = u.points || 0;
-  document.getElementById('cMoney').textContent  = u.points || 0;
-  document.getElementById('cWins').textContent   = u.wins   || 0;
+  document.getElementById('hPoints').textContent = u.points||0;
+  document.getElementById('hMoney').textContent = u.points||0;
+  document.getElementById('cPoints').textContent = u.points||0;
+  document.getElementById('cMoney').textContent = u.points||0;
+  document.getElementById('cWins').textContent = u.wins||0;
 
   const onl = onlineList();
   document.getElementById('cOnline').textContent = onl.length;
 
-  document.getElementById('onlineGrid').innerHTML = onl.length
-    ? onl.map(p => memberCard(p, users[p], true)).join('')
-    : '<div style="color:var(--muted);grid-column:1/-1">محدش أونلاين غيرك 👀</div>';
-
   const all = Object.keys(users);
-  document.getElementById('allMembers').innerHTML = all.map(p => memberCard(p, users[p], onl.includes(p))).join('');
+  const others = all.filter(p => p !== me);
+  let barHtml = '';
+  const myAv = avatarOf(me);
+  const myAvHtml = myAv ? `style="background-image:url(${myAv})"` : '';
+  barHtml += `<div class="friend me" onclick="goProfile()">
+    <div class="fav online" ${myAvHtml}>${myAv?'':escapeHtml((u.name||'؟').charAt(0).toUpperCase())}</div>
+    <div class="fnm">إنت</div>
+  </div>`;
+  others.forEach(p => {
+    const av = avatarOf(p);
+    const avHtml = av ? `style="background-image:url(${av})"` : '';
+    const isOn = onl.includes(p);
+    barHtml += `<div class="friend" onclick="showFriend('${p}')">
+      <div class="fav ${isOn?'online':''}" ${avHtml}>${av?'':escapeHtml((users[p].name||'?').charAt(0).toUpperCase())}</div>
+      <div class="fnm">${escapeHtml(users[p].name||p)}</div>
+    </div>`;
+  });
+  document.getElementById('friendsBar').innerHTML = barHtml;
+
+  document.getElementById('allMembers').innerHTML = all.map(p => {
+    const av = avatarOf(p);
+    const avHtml = av ? `style="background-image:url(${av})"` : '';
+    return `<div class="mem" onclick="showFriend('${p}')">
+      <div class="dot ${onl.includes(p)?'on':''}"></div>
+      <div class="av" ${avHtml}>${av?'':escapeHtml((users[p].name||'?').charAt(0).toUpperCase())}</div>
+      <div class="nm">${escapeHtml(users[p].name||p)}</div>
+      <div class="sc">${users[p].points||0} · ${users[p].points||0}ج</div>
+    </div>`;
+  }).join('');
 
   const sorted = all.slice().sort((a,b) => (users[b].points||0) - (users[a].points||0));
-  document.getElementById('leaderboard').innerHTML = sorted.map((p, i) => {
+  document.getElementById('leaderboard').innerHTML = sorted.map((p,i) => {
     const nm = users[p].name || p;
-    return `
-      <div class="lb-row ${i===0?'top1':i===1?'top2':i===2?'top3':''}">
-        <div class="rank">${i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1)}</div>
-        <div class="av">${escapeHtml(nm.charAt(0).toUpperCase())}</div>
-        <div class="nm">${escapeHtml(nm)} ${p===me?'<span style="color:var(--acc2);font-size:11px">(إنت)</span>':''}</div>
-        <div class="pts">${users[p].points||0} · ${users[p].points||0}ج</div>
-      </div>
-    `;
+    const av = avatarOf(p);
+    const avHtml = av ? `style="background-image:url(${av})"` : '';
+    return `<div class="lb-row ${i===0?'top1':i===1?'top2':i===2?'top3':''}">
+      <div class="rank">${i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1)}</div>
+      <div class="av" ${avHtml}>${av?'':escapeHtml(nm.charAt(0).toUpperCase())}</div>
+      <div class="nm">${escapeHtml(nm)} ${p===me?'<span style="color:var(--acc2);font-size:10px">(إنت)</span>':''}</div>
+      <div class="pts">${users[p].points||0}ج</div>
+    </div>`;
   }).join('');
 
   renderChat();
   if(currentGame) renderGame();
 }
 
-function memberCard(phone, data, online){
-  data = data || {points:0, name:phone};
-  const nm = data.name || phone;
-  return `
-    <div class="mem">
-      <div class="dot ${online?'on':''}"></div>
-      <div class="av">${escapeHtml(nm.charAt(0).toUpperCase())}</div>
-      <div class="nm">${escapeHtml(nm)}</div>
-      <div class="sc">${data.points||0} · ${data.points||0}ج</div>
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+
+/* ================= الملف الشخصي ================= */
+function uploadAvatar(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const size = 200;
+      canvas.width = size; canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      const min = Math.min(img.width, img.height);
+      const sx = (img.width - min) / 2, sy = (img.height - min) / 2;
+      ctx.drawImage(img, sx, sy, min, min, 0, 0, size, size);
+      const data = canvas.toDataURL('image/jpeg', 0.75);
+      const users = getUsers();
+      users[me].avatar = data;
+      save('users', users);
+      updateMyAvatar(); refreshUI();
+      toast('✅ تم تحديث صورتك');
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveProfile(){
+  const name = document.getElementById('pName').value.trim();
+  const bio = document.getElementById('pBio').value.trim();
+  if(name.length < 2) return toast('الاسم لازم حرفين على الأقل');
+  const users = getUsers();
+  users[me].name = name;
+  users[me].bio = bio;
+  save('users', users);
+  myName = name;
+  updateMyAvatar(); refreshUI();
+  toast('✅ تم حفظ الملف');
+}
+
+function showFriend(phone){
+  if(phone === me){ goProfile(); return; }
+  const users = getUsers();
+  const u = users[phone]; if(!u) return;
+  const av = u.avatar;
+  const avHtml = av ? `style="background-image:url(${av})"` : '';
+  const isOnline = onlineList().includes(phone);
+  const modal = document.getElementById('friendModal');
+  document.getElementById('friendBox').innerHTML = `
+    <div class="profile-av" ${avHtml} style="margin:0 auto 12px;width:90px;height:90px;font-size:36px;cursor:default">
+      ${av?'':escapeHtml((u.name||'?').charAt(0).toUpperCase())}
+    </div>
+    <div class="profile-name">${escapeHtml(u.name||phone)}</div>
+    <div class="profile-phone">${isOnline?'🟢 أونلاين':'⚪ أوفلاين'} · ${u.points||0} نقطة · ${u.points||0} ج</div>
+    <div class="profile-bio">${u.bio ? escapeHtml(u.bio) : '<span style="color:var(--muted)">مفيش وصف لسه</span>'}</div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <button class="btn sm" onclick="invitePlay('${phone}')">🎮 العب مع</button>
+      <button class="btn sm ghost" onclick="closeFriend()">إغلاق</button>
     </div>
   `;
+  modal.classList.add('show');
+}
+function closeFriend(){ document.getElementById('friendModal').classList.remove('show'); }
+
+function invitePlay(phone){
+  sendSystem(`🎮 ${myName} بيدعو ${nameOf(phone)} للعب!`);
+  toast('✅ تم إرسال الدعوة في الشات');
+  closeFriend();
+  document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelector('nav button[data-page="chat"]').classList.add('active');
+  document.getElementById('page-chat').classList.add('active');
 }
 
-function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-function toast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+/* ================= الألعاب ================= */
+const GAMES = [
+  {id:'xo', icon:'❌⭕', name:'إكس-أو', desc:'ضد صاحبك'},
+  {id:'rps', icon:'✊✋✌️', name:'حجرة ورقة مقص', desc:'ضد صاحبك'},
+  {id:'guess', icon:'🎯', name:'تخمين الرقم', desc:'1 لـ 100'},
+  {id:'dice', icon:'🎲', name:'الزهر', desc:'ارمي واكسب'},
+  {id:'coin', icon:'🪙', name:'العملة', desc:'كتابة ولا صورة'},
+  {id:'math', icon:'🧮', name:'رياضيات', desc:'حل بسرعة'},
+  {id:'react', icon:'⚡', name:'سرعة الرد', desc:'اضغط بسرعة'},
+  {id:'higher', icon:'🃏', name:'أعلى/أقل', desc:'خمّن الكارت'},
+  {id:'memory', icon:'🧠', name:'الذاكرة', desc:'طابق الأزواج'},
+  {id:'parity', icon:'🔢', name:'زوجي/فردي', desc:'خمّن'},
+  {id:'color', icon:'🎨', name:'اختلف اللون', desc:'قريباً', coming:true},
+  {id:'scramble', icon:'🔤', name:'رتّب الكلمة', desc:'قريباً', coming:true},
+  {id:'typing', icon:'⌨️', name:'سرعة الكتابة', desc:'قريباً', coming:true},
+  {id:'emoji', icon:'😀', name:'خمّن الإيموجي', desc:'قريباً', coming:true},
+  {id:'seq', icon:'🔗', name:'تسلسل الأرقام', desc:'قريباً', coming:true},
+  {id:'trivia', icon:'❓', name:'معلومات عامة', desc:'قريباً', coming:true},
+  {id:'hangman', icon:'🪢', name:'المشنقة', desc:'قريباً', coming:true},
+  {id:'wordchain', icon:'📝', name:'سلسلة كلمات', desc:'قريباً', coming:true},
+  {id:'simon', icon:'🎵', name:'سايمون', desc:'قريباً', coming:true},
+  {id:'snake', icon:'🐍', name:'الثعبان', desc:'قريباً', coming:true}
+];
+
+function buildGamesGrid(){
+  document.getElementById('gamesGrid').innerHTML = GAMES.map(g => `
+    <div class="game-card ${g.coming?'coming':''}" ${!g.coming?`onclick="startGame('${g.id}')"`:''}>
+      <span class="gi">${g.icon}</span>
+      <h4>${g.name}</h4>
+      <p>${g.desc}</p>
+    </div>
+  `).join('');
 }
 
-/* =========================================================
-   الألعاب
-   ========================================================= */
-let currentGame = null;
-
-function openXO(){
-  currentGame = 'xo';
-  const xo = store.get('xo', { board: Array(9).fill(null), players: [], turn: 0, winner: null, round: 0 });
-  if(xo.winner){ startNewXO(); return; }
-  joinXO();
+function startGame(id){
+  currentGame = id;
+  if(id === 'xo'){
+    const xo = store.get('xo', { board:Array(9).fill(null), players:[], turn:0, winner:null, round:0 });
+    if(xo.winner){ startNewXO(); return; }
+    joinXO();
+  }
+  if(id === 'rps'){ if(!store.get('rps')) save('rps', { picks:{}, scores:{}, round:1 }); }
+  if(id === 'guess'){ if(!store.get('guess')) newGuessGame(); }
+  if(id === 'dice'){ save('dice', { myRoll:null, oppRoll:null, done:false }); }
+  if(id === 'coin'){ save('coin', { pick:null, result:null, done:false }); }
+  if(id === 'math'){ newMathGame(); }
+  if(id === 'react'){ save('react', { state:'idle', start:0, time:null }); }
+  if(id === 'higher'){ save('higher', { card: rand13(), next:null, guess:null, done:false }); }
+  if(id === 'memory'){ newMemoryGame(); }
+  if(id === 'parity'){ save('parity', { num:null, pick:null, done:false }); }
   renderGame();
 }
+
+function closeGame(){ currentGame = null; document.getElementById('gameArea').innerHTML = ''; }
+
+/* XO */
 function startNewXO(){
-  const xo = { board: Array(9).fill(null), players: [], turn: 0, winner: null, round: (store.get('xo',{round:0}).round||0) + 1 };
-  save('xo', xo);
-  joinXO();
-  renderGame();
+  save('xo', { board:Array(9).fill(null), players:[], turn:0, winner:null, round:(store.get('xo',{round:0}).round||0)+1 });
+  joinXO(); renderGame();
 }
 function joinXO(){
-  const xo = store.get('xo');
-  if(!xo) return;
+  const xo = store.get('xo'); if(!xo) return;
   if(xo.players.includes(me)) return;
-  if(xo.players.length >= 2){ toast('اللعبة مليانة، استنى الجولة الجاية'); return; }
-  xo.players.push(me);
-  save('xo', xo);
+  if(xo.players.length >= 2){ toast('اللعبة مليانة'); return; }
+  xo.players.push(me); save('xo', xo);
 }
 function playXO(i){
-  const xo = store.get('xo');
-  if(!xo || xo.winner) return;
-  if(xo.players.length < 2){ toast('مستنيين لاعب تاني ينضم...'); return; }
-  if(xo.players[xo.turn % 2] !== me){ toast('دور صاحبك دلوقتي'); return; }
+  const xo = store.get('xo'); if(!xo || xo.winner) return;
+  if(xo.players.length < 2){ toast('مستنيين لاعب تاني'); return; }
+  if(xo.players[xo.turn % 2] !== me){ toast('دور صاحبك'); return; }
   if(xo.board[i]) return;
-
   xo.board[i] = xo.players[xo.turn % 2];
-  const win = checkWin(xo.board);
-  if(win){
-    xo.winner = win;
-    addPoints(win, 10);
-    addWin(win);
-    if(win === me) toast('🎉 كسبت! +10 نقاط = +10 جنيه');
-  } else if(xo.board.every(c => c)){
-    xo.winner = 'draw';
-  } else {
-    xo.turn++;
-  }
-  save('xo', xo);
-  renderGame();
-  refreshUI();
+  const w = checkWin(xo.board);
+  if(w){ xo.winner = w; addPoints(w,10); addWin(w); if(w===me) toast('🎉 كسبت! +10'); }
+  else if(xo.board.every(c=>c)) xo.winner = 'draw';
+  else xo.turn++;
+  save('xo', xo); renderGame(); refreshUI();
 }
 function checkWin(b){
-  const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-  for(const [a,c,d] of lines) if(b[a] && b[a]===b[c] && b[a]===b[d]) return b[a];
+  const L = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  for(const [a,c,d] of L) if(b[a] && b[a]===b[c] && b[a]===b[d]) return b[a];
   return null;
 }
 
-function openRPS(){
-  currentGame = 'rps';
-  if(!store.get('rps')) save('rps', { picks:{}, scores:{}, round:1 });
-  renderGame();
-}
-function pickRPS(choice){
+/* RPS */
+function pickRPS(c){
   const rps = store.get('rps', { picks:{}, scores:{}, round:1 });
-  if(rps.picks[me]){ toast('اخترت خلاص، استنى صاحبك'); return; }
-  rps.picks[me] = choice;
-  const pickers = Object.keys(rps.picks);
-  if(pickers.length === 2){
-    const [p1, p2] = pickers;
+  if(rps.picks[me]){ toast('اخترت خلاص'); return; }
+  rps.picks[me] = c;
+  const pk = Object.keys(rps.picks);
+  if(pk.length === 2){
+    const [p1,p2] = pk;
     const a = rps.picks[p1], b = rps.picks[p2];
-    let winner = null;
+    let w = null;
     if(a !== b){
-      if((a==='rock'&&b==='scissors')||(a==='paper'&&b==='rock')||(a==='scissors'&&b==='paper')) winner = p1;
-      else winner = p2;
+      if((a==='rock'&&b==='scissors')||(a==='paper'&&b==='rock')||(a==='scissors'&&b==='paper')) w = p1;
+      else w = p2;
     }
-    rps.lastResult = { p1, p2, a, b, winner, t: Date.now() };
-    if(winner){ addPoints(winner, 10); addWin(winner); }
-    rps.round++;
-    rps.picks = {};
+    rps.lastResult = { p1, p2, a, b, winner:w, t:Date.now() };
+    if(w){ addPoints(w,10); addWin(w); }
+    rps.round++; rps.picks = {};
   }
-  save('rps', rps);
-  renderGame();
-  refreshUI();
+  save('rps', rps); renderGame(); refreshUI();
 }
 
-function openGuess(){
-  currentGame = 'guess';
-  if(!store.get('guess')) newGuessGame();
-  renderGame();
-}
-function newGuessGame(){
-  save('guess', { target: Math.floor(Math.random()*100)+1, tries: 0, done: false, history: [] });
-}
+/* Guess */
+function newGuessGame(){ save('guess', { target: Math.floor(Math.random()*100)+1, tries:0, done:false }); }
 function guessNumber(){
   const g = store.get('guess');
-  const inp = document.getElementById('guessIn');
-  const n = parseInt(inp.value);
-  if(!n || n < 1 || n > 100){ toast('اكتب رقم من 1 لـ 100'); return; }
+  const n = parseInt(document.getElementById('guessIn').value);
+  if(!n || n<1 || n>100){ toast('اكتب رقم 1-100'); return; }
   g.tries++;
-  g.history.push(n);
-  if(n === g.target){
-    g.done = true;
-    const reward = Math.max(3, 10 - g.tries);
-    addPoints(me, reward);
-    toast('🎯 صح! كسبت ' + reward + ' نقاط');
-  } else {
-    g.hint = n < g.target ? 'الرقم أكبر ⬆️' : 'الرقم أصغر ⬇️';
-  }
-  save('guess', g);
-  renderGame();
-  refreshUI();
+  if(n === g.target){ g.done = true; const r = Math.max(3, 10-g.tries); addPoints(me, r); toast('🎯 صح! +'+r); }
+  else g.hint = n < g.target ? 'الرقم أكبر ⬆️' : 'الرقم أصغر ⬇️';
+  save('guess', g); renderGame(); refreshUI();
 }
 
+/* Dice */
+function rollDice(){
+  const d = store.get('dice', {});
+  if(d.myRoll) { toast('رميت خلاص'); return; }
+  const r = Math.floor(Math.random()*6)+1;
+  d.myRoll = r;
+  if(!d.oppRoll) d.oppRoll = Math.floor(Math.random()*6)+1;
+  if(d.myRoll > d.oppRoll){ addPoints(me, 10); toast('🎲 كسبت! +10'); }
+  else if(d.myRoll === d.oppRoll) toast('🤝 تعادل');
+  else toast('😅 خسرت');
+  save('dice', d); renderGame(); refreshUI();
+}
+
+/* Coin */
+function flipCoin(pick){
+  const c = store.get('coin', {});
+  if(c.pick){ toast('اخترت خلاص'); return; }
+  c.pick = pick;
+  c.result = Math.random() < 0.5 ? 'heads' : 'tails';
+  c.done = true;
+  if(c.pick === c.result){ addPoints(me, 10); toast('🪙 كسبت! +10'); }
+  else toast('😅 خسرت');
+  save('coin', c); renderGame(); refreshUI();
+}
+
+/* Math */
+function newMathGame(){
+  const a = Math.floor(Math.random()*20)+1;
+  const b = Math.floor(Math.random()*20)+1;
+  const ops = ['+','-','×'];
+  const op = ops[Math.floor(Math.random()*ops.length)];
+  let ans = op==='+' ? a+b : op==='-' ? a-b : a*b;
+  save('math', { a, b, op, ans, tries:0, done:false });
+}
+function solveMath(){
+  const m = store.get('math');
+  const v = parseInt(document.getElementById('mathIn').value);
+  m.tries++;
+  if(v === m.ans){ m.done = true; const r = Math.max(5, 15 - m.tries*2); addPoints(me, r); toast('🧮 صح! +'+r); }
+  else m.hint = v < m.ans ? 'الإجابة أكبر ⬆️' : 'الإجابة أصغر ⬇️';
+  save('math', m); renderGame(); refreshUI();
+}
+
+/* Reaction */
+function reactStart(){
+  const r = store.get('react', {});
+  if(r.state === 'idle'){
+    r.state = 'wait';
+    save('react', r); renderGame();
+    const delay = 1500 + Math.random()*3000;
+    setTimeout(() => {
+      const rr = store.get('react', {});
+      if(rr.state !== 'wait') return;
+      rr.state = 'go'; rr.start = Date.now();
+      save('react', rr); renderGame();
+    }, delay);
+  } else if(r.state === 'wait'){
+    save('react', { state:'idle', start:0, time:null });
+    toast('⏰ ضغط بدرى!');
+    renderGame();
+  } else if(r.state === 'go'){
+    const t = Date.now() - r.start;
+    r.state = 'done'; r.time = t;
+    if(t < 500){ addPoints(me, 10); toast('⚡ سريع جداً! +10'); }
+    else if(t < 800){ addPoints(me, 5); toast('⚡ حلو! +5'); }
+    else toast('⏱️ '+t+' مللي ثانية');
+    save('react', r); renderGame(); refreshUI();
+  } else {
+    save('react', { state:'idle', start:0, time:null });
+    renderGame();
+  }
+                         } 
+  /* Higher/Lower */
+function rand13(){ return Math.floor(Math.random()*13)+1; }
+function higherGuess(g){
+  const h = store.get('higher');
+  if(h.done) return;
+  h.next = rand13();
+  h.guess = g;
+  h.done = true;
+  const correct = (g === 'higher' && h.next > h.card) || (g === 'lower' && h.next < h.card);
+  const tie = h.next === h.card;
+  if(tie) toast('🤝 نفس الكارت!');
+  else if(correct){ addPoints(me, 10); toast('🃏 صح! +10'); }
+  else toast('😅 غلط');
+  save('higher', h); renderGame(); refreshUI();
+}
+
+/* Memory */
+function newMemoryGame(){
+  const emojis = ['🔥','⚡','💎','🎮','🚀','👑','🎯','🍀'];
+  const cards = [...emojis, ...emojis].map((e,i) => ({ id:i, e, flipped:false, matched:false }));
+  for(let i=cards.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [cards[i],cards[j]]=[cards[j],cards[i]]; }
+  save('memory', { cards, firstPick:null, moves:0, done:false });
+}
+function flipMem(idx){
+  const m = store.get('memory');
+  if(!m || m.done) return;
+  const c = m.cards[idx];
+  if(c.flipped || c.matched) return;
+
+  c.flipped = true;
+  if(m.firstPick === null){ m.firstPick = idx; }
+  else if(m.firstPick === idx){ return; }
+  else {
+    m.moves++;
+    const a = m.cards[m.firstPick];
+    if(a.e === c.e){
+      a.matched = c.matched = true;
+      m.firstPick = null;
+      if(m.cards.every(x => x.matched)){
+        m.done = true;
+        addPoints(me, 15);
+        toast('🧠 خلصتها في '+m.moves+' حركة! +15');
+      }
+    } else {
+      setTimeout(() => {
+        const mm = store.get('memory');
+        mm.cards[m.firstPick].flipped = false;
+        mm.cards[idx].flipped = false;
+        mm.firstPick = null;
+        save('memory', mm); renderGame();
+      }, 700);
+    }
+  }
+  save('memory', m); renderGame();
+}
+
+/* Parity */
+function pickParity(p){
+  const par = store.get('parity', {});
+  if(par.pick){ toast('اخترت خلاص'); return; }
+  par.num = Math.floor(Math.random()*100)+1;
+  par.pick = p;
+  par.done = true;
+  const correct = (p === 'even' && par.num % 2 === 0) || (p === 'odd' && par.num % 2 !== 0);
+  if(correct){ addPoints(me, 10); toast('🔢 صح! +10'); }
+  else toast('😅 غلط');
+  save('parity', par); renderGame(); refreshUI();
+}
+
+/* ================= رسم الألعاب ================= */
 function renderGame(){
   const area = document.getElementById('gameArea');
   if(!currentGame){ area.innerHTML = ''; return; }
 
-  if(currentGame === 'xo'){
-    const xo = store.get('xo') || { board: Array(9).fill(null), players: [], turn: 0, winner: null };
-    let status = '';
-    if(xo.players.length < 2) status = '⏳ مستنيين لاعب تاني. ابعت اللينك لصاحبك يفتحه ويدخل.';
-    else if(xo.winner === 'draw') status = '🤝 تعادل! اضغط "جولة جديدة"';
-    else if(xo.winner) status = `🏆 <b>${escapeHtml(nameOf(xo.winner))}</b> كسب الجولة! (+10 نقاط = +10 جنيه)`;
-    else status = `دور: <b>${escapeHtml(nameOf(xo.players[xo.turn % 2] || ''))}</b> ${xo.players[xo.turn % 2] === me ? '(إنت)' : ''}`;
+  const back = `<div style="display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap">
+    <button class="btn gold sm" onclick="closeGame()">✖️ خروج</button>
+  </div>`;
 
-    area.innerHTML = `
-      <div class="card">
-        <h3 style="font-size:16px;color:var(--txt);margin-bottom:6px">❌⭕ إكس-أو أونلاين</h3>
-        <div class="status">${status}</div>
-        <div id="xoBoard">
-          ${xo.board.map((c,i) => `<div class="cell ${c==='X'?'x':c==='O'?'o':''}" onclick="playXO(${i})">${c==='X'?'✕':c==='O'?'◯':''}</div>`).join('')}
-        </div>
-        <div style="text-align:center;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px">
-          <button class="btn ghost" onclick="startNewXO()">🔄 جولة جديدة</button>
-          <button class="btn gold" onclick="currentGame=null;document.getElementById('gameArea').innerHTML=''">✖️ خروج</button>
-        </div>
-        <div style="text-align:center;color:var(--muted);font-size:12px;margin-top:10px">
-          اللاعبين: ${xo.players.map(p=>escapeHtml(nameOf(p))).join(' ضد ') || 'مفيش'}
-        </div>
+  if(currentGame === 'xo'){
+    const xo = store.get('xo') || { board:Array(9).fill(null), players:[], turn:0, winner:null };
+    let s = '';
+    if(xo.players.length < 2) s = '⏳ مستنيين لاعب تاني';
+    else if(xo.winner === 'draw') s = '🤝 تعادل!';
+    else if(xo.winner) s = `🏆 <b>${escapeHtml(nameOf(xo.winner))}</b> كسب +10`;
+    else s = `دور: <b>${escapeHtml(nameOf(xo.players[xo.turn%2]||''))}</b> ${xo.players[xo.turn%2]===me?'(إنت)':''}`;
+    area.innerHTML = `<div class="card">
+      <h3 style="font-size:14px;color:var(--txt);margin-bottom:6px;text-align:center">❌⭕ إكس-أو</h3>
+      <div class="status">${s}</div>
+      <div id="xoBoard">${xo.board.map((c,i)=>`<div class="cell ${c==='X'?'x':c==='O'?'o':''}" onclick="playXO(${i})">${c==='X'?'✕':c==='O'?'◯':''}</div>`).join('')}</div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px">
+        <button class="btn ghost sm" onclick="startNewXO()">🔄 جديدة</button>
+        <button class="btn gold sm" onclick="closeGame()">✖️ خروج</button>
       </div>
-    `;
+    </div>`;
   }
 
-  if(currentGame === 'rps'){
-    const rps = store.get('rps', { picks:{}, scores:{}, round:1 });
-    const pickers = Object.keys(rps.picks);
-    const emoji = { rock:'✊', paper:'✋', scissors:'✌️' };
+  else if(currentGame === 'rps'){
+    const rps = store.get('rps', { picks:{}, round:1 });
+    const pk = Object.keys(rps.picks);
+    const em = { rock:'✊', paper:'✋', scissors:'✌️' };
     const ar = { rock:'حجرة', paper:'ورقة', scissors:'مقص' };
     let res = '';
     if(rps.lastResult){
       const r = rps.lastResult;
-      res = `<div class="status" style="margin-top:14px">
-        ${escapeHtml(nameOf(r.p1))}: ${emoji[r.a]} ${ar[r.a]} &nbsp;ضد&nbsp; ${escapeHtml(nameOf(r.p2))}: ${emoji[r.b]} ${ar[r.b]}<br>
-        ${r.winner ? `🏆 <b>${escapeHtml(nameOf(r.winner))}</b> كسب +10 نقاط` : '🤝 تعادل'}
+      res = `<div class="status" style="margin-top:10px">
+        ${escapeHtml(nameOf(r.p1))}: ${em[r.a]} ضد ${escapeHtml(nameOf(r.p2))}: ${em[r.b]}<br>
+        ${r.winner ? `🏆 <b>${escapeHtml(nameOf(r.winner))}</b> +10` : '🤝 تعادل'}
       </div>`;
     }
-    area.innerHTML = `
-      <div class="card" style="text-align:center">
-        <h3 style="font-size:16px;color:var(--txt);margin-bottom:6px">✊✋✌️ حجرة ورقة مقص</h3>
-        <div class="status">
-          الجولة: <b>${rps.round}</b> · ${pickers.length === 0 ? 'اختار حركتك' : pickers.includes(me) ? 'استنى صاحبك...' : 'صاحبك اختار! دورك'}
-        </div>
-        <div class="rps-btns">
-          <button class="${rps.picks[me]==='rock'?'picked':''}" onclick="pickRPS('rock')">✊</button>
-          <button class="${rps.picks[me]==='paper'?'picked':''}" onclick="pickRPS('paper')">✋</button>
-          <button class="${rps.picks[me]==='scissors'?'picked':''}" onclick="pickRPS('scissors')">✌️</button>
-        </div>
-        <div class="status">اللاعبين في الجولة: ${pickers.length}/2</div>
-        ${res}
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px">
-          <button class="btn gold" onclick="currentGame=null;document.getElementById('gameArea').innerHTML=''">✖️ خروج</button>
-        </div>
+    area.innerHTML = `<div class="card" style="text-align:center">
+      <h3 style="font-size:14px;color:var(--txt);margin-bottom:6px">✊✋✌️ حجرة ورقة مقص</h3>
+      <div class="status">الجولة <b>${rps.round}</b> · ${pk.length===0?'اختار':pk.includes(me)?'استنى صاحبك':'دورك'}</div>
+      <div class="rps-btns">
+        <button class="${rps.picks[me]==='rock'?'picked':''}" onclick="pickRPS('rock')">✊</button>
+        <button class="${rps.picks[me]==='paper'?'picked':''}" onclick="pickRPS('paper')">✋</button>
+        <button class="${rps.picks[me]==='scissors'?'picked':''}" onclick="pickRPS('scissors')">✌️</button>
       </div>
-    `;
+      <div class="status">${pk.length}/2</div>${res}
+      <div style="margin-top:10px"><button class="btn gold sm" onclick="closeGame()">✖️ خروج</button></div>
+    </div>`;
   }
 
-  if(currentGame === 'guess'){
+  else if(currentGame === 'guess'){
     const g = store.get('guess') || { target:0, tries:0, done:false };
-    let msg = 'خمّن رقم من 1 لـ 100';
-    if(g.done) msg = `🎉 خلصتها في ${g.tries} محاولة`;
-    else if(g.hint) msg = g.hint;
-    const reward = Math.max(3, 10 - g.tries);
-
-    area.innerHTML = `
-      <div class="card" style="text-align:center">
-        <h3 style="font-size:16px;color:var(--txt);margin-bottom:6px">🎯 تخمين الرقم</h3>
-        <div class="status">${msg}</div>
-        ${!g.done ? `
-          <div style="display:flex;gap:10px;justify-content:center;margin:12px 0;flex-wrap:wrap">
-            <input id="guessIn" type="number" min="1" max="100" placeholder="رقم"
-              style="padding:12px 16px;border-radius:12px;background:var(--bg2);border:1px solid var(--line);color:var(--txt);font-size:15px;outline:none;width:140px;text-align:center"
-              onkeydown="if(event.key==='Enter')guessNumber()" />
-            <button class="btn" onclick="guessNumber()">خمّن</button>
-          </div>
-          <div style="color:var(--muted);font-size:12px">المحاولات: ${g.tries} · لو خلصتها دلوقتي هتاخد ${reward} نقاط</div>
-        ` : `
-          <div class="big" style="font-size:32px;margin:12px 0">+${reward}</div>
-          <button class="btn" onclick="newGuessGame();renderGame();">🔄 العب تاني</button>
-        `}
-        <div style="margin-top:12px">
-          <button class="btn gold" onclick="currentGame=null;document.getElementById('gameArea').innerHTML=''">✖️ خروج</button>
+    let m = 'خمّن رقم من 1 لـ 100';
+    if(g.done) m = `🎉 خلصتها في ${g.tries}`;
+    else if(g.hint) m = g.hint;
+    const r = Math.max(3, 10-g.tries);
+    area.innerHTML = `<div class="card" style="text-align:center">
+      <h3 style="font-size:14px;color:var(--txt);margin-bottom:6px">🎯 تخمين الرقم</h3>
+      <div class="status">${m}</div>
+      ${!g.done ? `
+        <div style="display:flex;gap:6px;justify-content:center;margin:10px 0;flex-wrap:wrap">
+          <input id="guessIn" type="number" placeholder="رقم" style="padding:10px 14px;border-radius:11px;background:var(--bg2);border:1px solid var(--line);color:var(--txt);font-size:14px;outline:none;width:120px;text-align:center" onkeydown="if(event.key==='Enter')guessNumber()" />
+          <button class="btn sm" onclick="guessNumber()">خمّن</button>
         </div>
+        <div style="color:var(--muted);font-size:11px">محاولات: ${g.tries} · +${r} نقاط لو خلصتها</div>
+      ` : `<button class="btn sm" onclick="newGuessGame();renderGame();">🔄 تاني</button>`}
+      ${back}
+    </div>`;
+  }
+
+  else if(currentGame === 'dice'){
+    const d = store.get('dice', { myRoll:null, oppRoll:null });
+    area.innerHTML = `<div class="card" style="text-align:center">
+      <h3 style="font-size:14px;color:var(--txt);margin-bottom:6px">🎲 الزهر</h3>
+      <div class="status">ارمي الزهر، ولو رقمك أكبر من رقم صاحبك تكسب +10</div>
+      <div class="dice-area">
+        <div><div class="die" id="myDie">${d.myRoll||'?'}</div><div style="font-size:11px;color:var(--muted);margin-top:6px">إنت</div></div>
+        <div style="font-size:20px;color:var(--muted)">ضد</div>
+        <div><div class="die" id="oppDie">${d.oppRoll||'?'}</div><div style="font-size:11px;color:var(--muted);margin-top:6px">صاحبك</div></div>
       </div>
-    `;
+      ${!d.myRoll ? `<button class="btn" onclick="document.getElementById('myDie').classList.add('rolling');setTimeout(rollDice,500)">🎲 ارمي</button>` : `<button class="btn sm" onclick="save('dice',{myRoll:null,oppRoll:null});renderGame()">🔄 تاني</button>`}
+      ${back}
+    </div>`;
+  }
+
+  else if(currentGame === 'coin'){
+    const c = store.get('coin', {});
+    const emoji = c.result === 'heads' ? '👑' : '🦅';
+    const ar = c.result === 'heads' ? 'ملك' : 'نسر';
+    area.innerHTML = `<div class="card" style="text-align:center">
+      <h3 style="font-size:14px;color:var(--txt);margin-bottom:6px">🪙 العملة</h3>
+      <div class="status">${c.done ? (c.pick === c.result ? '🎉 كسبت! +10' : '😅 خسرت') : 'اختار ملك (👑) ولا نسر (🦅)'}</div>
+      <div class="coin ${c.done?'flipping':''}">${c.done ? emoji : '🪙'}</div>
+      ${!c.done ? `
+        <div style="display:flex;gap:10px;justify-content:center">
+          <button class="btn" onclick="flipCoin('heads')">👑 ملك</button>
+          <button class="btn gold" onclick="flipCoin('tails')">🦅 نسر</button>
+        </div>
+      ` : `
+        <div style="font-size:13px;color:var(--muted);margin-bottom:10px">النتيجة: <b style="color:var(--gold)">${ar}</b></div>
+        <button class="btn sm" onclick="save('coin',{pick:null,result:null,done:false});renderGame()">🔄 تاني</button>
+      `}
+      ${back}
+    </div>`;
+  }
+
+  else if(currentGame === 'math'){
+    const m = store.get('math');
+    const r = Math.max(5, 15 - m.tries*2);
+    area.innerHTML = `<div class="card" style="text-align:center">
+      <h3 style="font-size:14px;color:var(--txt);margin-bottom:6px">🧮 رياضيات</h3>
+      <div style="font-size:32px;font-weight:bold;margin:14px 0;color:var(--acc2)">${m.a} ${m.op} ${m.b}</div>
+      <div class="status">${m.done ? '🎉 صح! +'+r : (m.hint||'اكتب الإجابة')}</div>
+      ${!m.done ? `
+        <div style="display:flex;gap:6px;justify-content:center;margin:10px 0;flex-wrap:wrap">
+          <input id="mathIn" type="number" placeholder="الإجابة" style="padding:10px 14px;border-radius:11px;background:var(--bg2);border:1px solid var(--line);color:var(--txt);font-size:14px;outline:none;width:120px;text-align:center" onkeydown="if(event.key==='Enter')solveMath()" />
+          <button class="btn sm" onclick="solveMath()">أرسل</button>
+        </div>
+        <div style="color:var(--muted);font-size:11px">محاولات: ${m.tries} · +${r} نقاط</div>
+      ` : `<button class="btn sm" onclick="newMathGame();renderGame()">🔄 تاني</button>`}
+      ${back}
+    </div>`;
+  }
+
+  else if(currentGame === 'react'){
+    const r = store.get('react', { state:'idle' });
+    let cls = 'wait', txt = 'اضغط للبدء';
+    if(r.state === 'wait'){ cls='wait'; txt='⏳ استنى الأخضر...'; }
+    else if(r.state === 'go'){ cls='go'; txt='💥 اضغط دلوقتي!'; }
+    else if(r.state === 'done'){ cls='done'; txt=r.time+' مللي ثانية'; }
+    area.innerHTML = `<div class="card" style="text-align:center">
+      <h3 style="font-size:14px;color:var(--txt);margin-bottom:6px">⚡ سرعة الرد</h3>
+      <div class="reaction-box ${cls}" onclick="reactStart()">${txt}</div>
+      ${r.state === 'done' ? '<div class="status">أقل من 500ms = 10 نقاط · أقل من 800ms = 5 نقاط</div>' : ''}
+      ${back}
+    </div>`;
+  }
+
+  else if(currentGame === 'higher'){
+    const h = store.get('higher');
+    area.innerHTML = `<div class="card" style="text-align:center">
+      <h3 style="font-size:14px;color:var(--txt);margin-bottom:6px">🃏 أعلى/أقل</h3>
+      <div style="display:flex;gap:20px;justify-content:center;align-items:center;margin:16px 0">
+        <div style="background:#fff;color:#111;padding:14px 20px;border-radius:12px;font-size:32px;font-weight:bold">${h.card}</div>
+        <div style="color:var(--muted);font-size:20px">→</div>
+        <div style="background:var(--bg2);border:2px dashed var(--line);padding:14px 20px;border-radius:12px;font-size:32px;font-weight:bold;color:${h.done?'#fff':'var(--muted)'}">${h.done ? h.next : '?'}</div>
+      </div>
+      <div class="status">${!h.done ? 'الكارت الجاي أعلى ولا أقل؟' : (h.next === h.card ? '🤝 نفس الكارت!' : ((h.guess==='higher' && h.next>h.card) || (h.guess==='lower' && h.next<h.card)) ? '🎉 صح! +10' : '😅 غلط')}</div>
+      ${!h.done ? `
+        <div style="display:flex;gap:10px;justify-content:center">
+          <button class="btn" onclick="higherGuess('higher')">⬆️ أعلى</button>
+          <button class="btn gold" onclick="higherGuess('lower')">⬇️ أقل</button>
+        </div>
+      ` : `<button class="btn sm" onclick="save('higher',{card:rand13(),next:null,guess:null,done:false});renderGame()">🔄 تاني</button>`}
+      ${back}
+    </div>`;
+  }
+
+  else if(currentGame === 'memory'){
+    const m = store.get('memory');
+    area.innerHTML = `<div class="card" style="text-align:center">
+      <h3 style="font-size:14px;color:var(--txt);margin-bottom:6px">🧠 الذاكرة</h3>
+      <div class="status">${m.done ? '🎉 خلصتها في '+m.moves+' حركة! +15' : 'الحركات: '+m.moves}</div>
+      <div class="mem-board">
+        ${m.cards.map((c,i) => `<div class="mem-card ${c.flipped||c.matched?'flipped':''} ${c.matched?'matched':''}" onclick="flipMem(${i})">${c.flipped||c.matched?c.e:''}</div>`).join('')}
+      </div>
+      ${m.done ? '<button class="btn sm" onclick="newMemoryGame();renderGame()">🔄 تاني</button>' : ''}
+      ${back}
+    </div>`;
+  }
+
+  else if(currentGame === 'parity'){
+    const p = store.get('parity');
+    area.innerHTML = `<div class="card" style="text-align:center">
+      <h3 style="font-size:14px;color:var(--txt);margin-bottom:6px">🔢 زوجي/فردي</h3>
+      <div class="status">${!p.done ? 'هيطلع الرقم زوجي ولا فردي؟' : `الرقم: <b>${p.num}</b> — ${((p.pick==='even'&&p.num%2===0)||(p.pick==='odd'&&p.num%2!==0))?'🎉 صح! +10':'😅 غلط'}`}</div>
+      ${!p.done ? `
+        <div style="display:flex;gap:10px;justify-content:center;margin:14px 0">
+          <button class="btn" onclick="pickParity('even')">🟢 زوجي</button>
+          <button class="btn gold" onclick="pickParity('odd')">🟠 فردي</button>
+        </div>
+      ` : `<button class="btn sm" onclick="save('parity',{num:null,pick:null,done:false});renderGame()">🔄 تاني</button>`}
+      ${back}
+    </div>`;
   }
 }
 
-/* =========================================================
-   استرجاع الجلسة
-   ========================================================= */
+/* ================= init ================= */
 (function init(){
   const saved = sessionStorage.getItem('shilla_me');
   const users = store.get('users', {});
-  if(saved && users[saved]){
-    me = saved;
-    myName = users[saved].name;
-    startApp();
-  } else {
-    // ركّز على أول صندوق في شاشة التسجيل
-    setTimeout(() => focusOTP(document.getElementById('regPass')), 400);
-  }
+  if(saved && users[saved]){ me = saved; myName = users[saved].name; startApp(); }
+  else setTimeout(() => focusOTP(document.getElementById('regPass')), 400);
 })();
 </script>
 </body>
 </html>
+    
